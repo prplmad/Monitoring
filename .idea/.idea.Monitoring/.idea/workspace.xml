@@ -8,29 +8,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a84e1e96-a4f0-4b86-91d6-379c6d57abf4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BL/Abstract/Services/IStatisticsControllerService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BL/Services/StatisticsControllerService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Monitoring/Controllers/StatisticsController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Monitoring/Models/StatisticsItem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contracts/StatisticsDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Entities/StatisticsEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Repositories/IStatisticsInMemoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Persistence/Repositories/StatisticsInMemoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/Controllers/StatisticsController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services.Abstractions/IGetStatisticsFromMobileAppService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/GetStatisticsFromMobileAppService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Monitoring/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Monitoring/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BL/Abstract/Services/IStatisticsControllerService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BL/BL.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BL/Services/StatisticsControllerService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAL/DAL.csproj" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitoring.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Monitoring.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monitoring/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Monitoring/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monitoring/Monitoring.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Monitoring/Monitoring.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Controllers/StatisticsController.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/BL/Class1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/DAL/Class1.cs" root0="SKIP_HIGHLIGHTING" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="SWEA" />
   </component>
   <component name="ProjectId" id="2GRKB13BgrAWjnSXJtrk8dM8nKr" />
   <component name="ProjectLevelVcsManager">
@@ -120,6 +122,8 @@
       <workItem from="1666345822145" duration="300000" />
       <workItem from="1666349907984" duration="52000" />
       <workItem from="1666350921975" duration="5286000" />
+      <workItem from="1666356344700" duration="1181000" />
+      <workItem from="1666597089492" duration="1019000" />
     </task>
     <servers />
   </component>
