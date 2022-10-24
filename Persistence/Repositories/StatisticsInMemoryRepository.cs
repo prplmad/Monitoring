@@ -1,36 +1,41 @@
-﻿using Domain.Repositories;
-using Domain.Entities;
+﻿// <copyright file="StatisticsInMemoryRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Persistence.Repositories;
 
-public class StatisticsInMemoryRepository<T> : IStatisticsInMemoryRepository 
+using Domain.Entities;
+using Domain.Repositories;
+
+public class StatisticsInMemoryRepository<T> : IStatisticsInMemoryRepository<T>
 {
-    private readonly List<StatisticsEntity<T>> _statistics;
+    private readonly List<Statistics<T>> statistics;
 
     public StatisticsInMemoryRepository()
     {
-        _statistics = new List<StatisticsEntity<T>>();
-    }
-    
-    public async Task Add(StatisticsEntity<T> item)
-    {
-        _statistics.Add(item);
-    }
-    
-    public async Task Update(StatisticsEntity<T> item, int index)
-    {
-        
+        this.statistics = new List<Statistics<T>>();
     }
 
-    /*public async Task<int> Find(StatisticsEntity<T> item)
+    public async Task Create(Statistics<T> item)
     {
-        for (int i = 0; i < _statistics.Count; i++)
+        item.UpdateDate = DateTime.Now;
+        this.statistics.Add(item);
+    }
+
+    public async Task UpdateByIndex(Statistics<T> item, int index)
+    {
+    }
+
+    public async Task<int> GetIndexByExternalId(Statistics<T> item)
+    {
+        /*for (int i = 0; i < this.statistics.Count; i++)
         {
-            if (item.Id.ToString() == _statistics[i].Id.ToString())
+            if (item.ExternalId.ToString() == this.statistics[i].ExternalId.ToString())
             {
                 return i;
             }
-        }
+        }*/
+
         return -1;
-    }*/
+    }
 }

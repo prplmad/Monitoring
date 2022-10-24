@@ -5,23 +5,112 @@
     <projectFile profileName="IIS Express">Monitoring/Monitoring.csproj</projectFile>
     <projectFile profileName="DAL">DAL/DAL.csproj</projectFile>
     <projectFile profileName="IIS Express">DAL/DAL.csproj</projectFile>
+    <projectFile profileName="WebApi">WebApi/WebApi.csproj</projectFile>
+    <projectFile profileName="IIS Express">WebApi/WebApi.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a84e1e96-a4f0-4b86-91d6-379c6d57abf4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Contracts/StatisticsDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/Entities/StatisticsEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/Repositories/IStatisticsInMemoryRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Persistence/Repositories/StatisticsInMemoryRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Presentation/Controllers/StatisticsController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services.Abstractions/IGetStatisticsFromMobileAppService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/GetStatisticsFromMobileAppService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contracts/StatisticsForCreationDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contracts/StatisticsForUpdatingDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Entities/Statistics.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Exceptions/BadRequestException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Exceptions/NotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Exceptions/StatisticsNotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/AssemblyReference.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Monitoring/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Monitoring/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BL/Abstract/Services/IStatisticsControllerService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BL/BL.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BL/Services/StatisticsControllerService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DAL/DAL.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contracts/Contracts.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Contracts/Contracts.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Contracts/StatisticsDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Contracts/StatisticsDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Entities/StatisticsEntity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Repositories/IStatisticsInMemoryRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Repositories/IStatisticsInMemoryRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitoring.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Monitoring.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monitoring/Controllers/StatisticsController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/.idea/.idea.Monitoring/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/.idea/.idea.Monitoring/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/.idea/.idea.Monitoring/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Controllers/HomeController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Models/ErrorViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Models/StatisticsItem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Monitoring.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Home/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Shared/Error.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Shared/_Layout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Shared/_Layout.cshtml.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/Shared/_ValidationScriptsPartial.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/Views/_ViewStart.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/css/site.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/js/site.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation/dist/additional-methods.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation/dist/additional-methods.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation/dist/jquery.validate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery/dist/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery/dist/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monitoring/wwwroot/lib/jquery/dist/jquery.min.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Persistence/Persistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Persistence/Persistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Persistence/Repositories/StatisticsInMemoryRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistence/Repositories/StatisticsInMemoryRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Controllers/StatisticsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Controllers/StatisticsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Presentation.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Presentation.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services.Abstractions/IGetStatisticsFromMobileAppService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services.Abstractions/IStatisticsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services.Abstractions/Services.Abstractions.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services.Abstractions/Services.Abstractions.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/GetStatisticsFromMobileAppService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/StatisticsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Services.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Services.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +121,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="SWEA" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2GRKB13BgrAWjnSXJtrk8dM8nKr" />
   <component name="ProjectLevelVcsManager">
@@ -43,43 +132,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.updates" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Monitoring">
-    <configuration name="DAL" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DAL/DAL.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="DAL" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <configuration name="DAL: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DAL/DAL.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected=".NET Launch Settings Profile.WebApi">
     <configuration name="Monitoring" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Monitoring/Monitoring.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -110,6 +170,42 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="WebApi" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebApi/WebApi.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="WebApi" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="WebApi: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebApi/WebApi.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.Monitoring" />
+      <item itemvalue=".NET Launch Settings Profile.Monitoring: IIS Express" />
+      <item itemvalue=".NET Launch Settings Profile.WebApi" />
+      <item itemvalue=".NET Launch Settings Profile.WebApi: IIS Express" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -124,6 +220,8 @@
       <workItem from="1666350921975" duration="5286000" />
       <workItem from="1666356344700" duration="1181000" />
       <workItem from="1666597089492" duration="1019000" />
+      <workItem from="1666598133814" duration="3945000" />
+      <workItem from="1666602334835" duration="13431000" />
     </task>
     <servers />
   </component>
