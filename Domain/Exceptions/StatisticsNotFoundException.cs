@@ -2,10 +2,10 @@
 
 using System;
 
-public class StatisticsNotFoundException<T> : NotFoundException
+public class StatisticsNotFoundException : NotFoundException
 {
-    public StatisticsNotFoundException(T id)
-        : base($"The statistics with the identifier {id} was not found.")
+    public StatisticsNotFoundException(int externalId)
+        : base($"Статистика с внешним ID {externalId} не найдена.")
     {
     }
 }

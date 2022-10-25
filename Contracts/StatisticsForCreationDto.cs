@@ -1,28 +1,36 @@
-﻿// <copyright file="StatisticsForCreationDto.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+﻿namespace Contracts;
 
-namespace Contracts;
+using System.ComponentModel.DataAnnotations;
 
-public class StatisticsForCreationDto<T>
+/// <summary>
+/// Dto для создания статистики.
+/// </summary>
+public class StatisticsForCreationDto
 {
     /// <summary>
-    /// Gets or sets идентификатор статистики, полученный от мобильного приложения Connect.
+    /// Идентификатор статистики, полученный от мобильного приложения Connect.
     /// </summary>
-    public T? ExternalId { get; set; }
+    [Required(ErrorMessage = "ExternalId is required")]
+    public int ExternalId { get; set; }
 
     /// <summary>
-    /// Gets or sets имя пользователя.
+    /// Имя пользователя.
     /// </summary>
+    [Required(ErrorMessage = "UserName is required")]
+    [StringLength(100, ErrorMessage = "Длина наименования UserName должна быть не больше 100 символов")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// Gets or sets версия приложения.
+    /// Версия приложения.
     /// </summary>
+    [Required(ErrorMessage = "ClientVersion is required")]
+    [StringLength(30, ErrorMessage = "Длина наименования ClientVersion должна быть не больше 30 символов")]
     public string? ClientVersion { get; set; }
 
     /// <summary>
-    /// Gets or sets операционная система.
+    /// Операционная система.
     /// </summary>
+    [Required(ErrorMessage = "Os is required")]
+    [StringLength(30, ErrorMessage = "Длина наименования Os должна быть не больше 30 символов")]
     public string? Os { get; set; }
 }

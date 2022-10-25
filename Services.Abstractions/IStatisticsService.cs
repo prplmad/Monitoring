@@ -1,19 +1,18 @@
-﻿// <copyright file="IStatisticsService.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Services.Abstractions;
+﻿namespace Services.Abstractions;
 
 using Contracts;
 
-public interface IStatisticsService<T>
+/// <summary>
+/// Сервис для операций со статистикой.
+/// </summary>
+public interface IStatisticsService
 {
     /// <summary>
     /// Получение всех элементов статистики.
     /// </summary>
     /// <param name="cancellationToken"> Токен для отмены задачи.</param>
-    /// <returns>Возвращается коллекция с элементами статистики</returns>
-    Task<IEnumerable<StatisticsDto<T>>> GetAllAsync(CancellationToken cancellationToken);
+    /// <returns>Возвращается коллекция с элементами статистики.</returns>
+    Task<IEnumerable<StatisticsDto>> GetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Создание статистики.
@@ -21,13 +20,14 @@ public interface IStatisticsService<T>
     /// <param name="statisticsForCreationDto">ДТО статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task CreateAsync(StatisticsForCreationDto<T> statisticsForCreationDto, CancellationToken cancellationToken);
+    Task CreateAsync(StatisticsForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Получение статистики по ExternalID.
+    /// Обновление статистики.
     /// </summary>
-    /// <param name="statisticsDto">ДТО статистики.</param>
+    /// <param name="statisticsForUpdatingDto">ДТО статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
-    /// <returns>Возвращается элемент статистики.</returns>
-    Task<StatisticsDto<T>> GetByExternalIdAsync(StatisticsDto<T> statisticsDto, CancellationToken cancellationToken);
+    /// <returns>Возвращается Task.</returns>
+    Task UpdateAsync(StatisticsForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default);
+
 }

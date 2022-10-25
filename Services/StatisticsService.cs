@@ -1,8 +1,4 @@
-﻿// <copyright file="StatisticsService.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Services;
+﻿namespace Services;
 
 using Contracts;
 using Domain.Entities;
@@ -10,30 +6,36 @@ using Domain.Repositories;
 using Mapster;
 using Services.Abstractions;
 
-public class StatisticsService<T> : IStatisticsService<T>
+/// <inheritdoc />
+public class StatisticsService : IStatisticsService
 {
-    private readonly IStatisticsInMemoryRepository<T> statisticsInMemoryRepository;
+    private readonly IStatisticsRepository _statisticsRepository;
 
-    public StatisticsService(IStatisticsInMemoryRepository<T> statisticsInMemoryRepository)
+    /// <summary>
+    /// Конструктор для подключения сервисов.
+    /// </summary>
+    /// <param name="statisticsRepository">Объект, реализующий интерфейс IStatisticsRepository.</param>
+    public StatisticsService(IStatisticsRepository statisticsRepository)
     {
-        this.statisticsInMemoryRepository = statisticsInMemoryRepository;
+        _statisticsRepository = statisticsRepository;
     }
 
     /// <inheritdoc/>
-    public Task<IEnumerable<StatisticsDto<T>>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task CreateAsync(StatisticsForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default)
+    {
+        var statistics = statisticsForCreationDto.Adapt<Statistics>();
+        statistics.UpdateDate = DateTime.Now;
+        await _statisticsRepository.CreateAsync(statistics);
+    }
+
+    /// <inheritdoc/>
+    public async Task UpdateAsync(StatisticsForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public async Task CreateAsync(StatisticsForCreationDto<T> statisticsForCreationDto, CancellationToken cancellationToken)
-    {
-        var statistics = statisticsForCreationDto.Adapt<Statistics<T>>();
-        await this.statisticsInMemoryRepository.Create(statistics);
-    }
-
-    /// <inheritdoc/>
-    public Task<StatisticsDto<T>> GetByExternalIdAsync(StatisticsDto<T> statistics, CancellationToken cancellationToken)
+    public async Task<IEnumerable<StatisticsDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

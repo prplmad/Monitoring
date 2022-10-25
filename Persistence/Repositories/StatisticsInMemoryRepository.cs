@@ -1,41 +1,36 @@
-﻿// <copyright file="StatisticsInMemoryRepository.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Persistence.Repositories;
+﻿namespace Persistence.Repositories;
 
 using Domain.Entities;
 using Domain.Repositories;
 
-public class StatisticsInMemoryRepository<T> : IStatisticsInMemoryRepository<T>
+/// <inheritdoc />
+public class StatisticsInMemoryRepository : IStatisticsRepository
 {
-    private readonly List<Statistics<T>> statistics;
+    private readonly List<Statistics> _statistics;
 
+    /// <summary>
+    /// Создание объекта коллекции со статистикой.
+    /// </summary>
     public StatisticsInMemoryRepository()
     {
-        this.statistics = new List<Statistics<T>>();
+        _statistics = new List<Statistics>();
     }
 
-    public async Task Create(Statistics<T> item)
+    /// <inheritdoc />
+    public async Task CreateAsync(Statistics item, CancellationToken cancellationToken = default)
     {
-        item.UpdateDate = DateTime.Now;
-        this.statistics.Add(item);
+        _statistics.Add(item);
     }
 
-    public async Task UpdateByIndex(Statistics<T> item, int index)
+    /// <inheritdoc />
+    public async Task UpdateAsync(Statistics item, CancellationToken cancellationToken = default)
     {
+        throw new NotImplementedException();
     }
 
-    public async Task<int> GetIndexByExternalId(Statistics<T> item)
+    /// <inheritdoc />
+    public async Task<IReadOnlyCollection<Statistics>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        /*for (int i = 0; i < this.statistics.Count; i++)
-        {
-            if (item.ExternalId.ToString() == this.statistics[i].ExternalId.ToString())
-            {
-                return i;
-            }
-        }*/
-
-        return -1;
+        throw new NotImplementedException();
     }
 }

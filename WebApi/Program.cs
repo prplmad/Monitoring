@@ -1,4 +1,6 @@
+using Domain.Repositories;
 using Microsoft.OpenApi.Models;
+using Persistence.Repositories;
 using Services.Abstractions;
 using Services;
 
@@ -12,7 +14,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" }));
 
 builder.Services
-    .AddScoped(typeof(IStatisticsService<>), typeof(StatisticsService<>));
+    .AddSingleton<IStatisticsRepository, StatisticsInMemoryRepository>();
+builder.Services
+    .AddScoped<IStatisticsService, StatisticsService>();
 
 var app = builder.Build();
 

@@ -1,33 +1,32 @@
-﻿// <copyright file="StatisticsDto.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+﻿namespace Contracts;
 
-namespace Contracts;
-
-public class StatisticsDto<T>
+/// <summary>
+/// Dto статистики.
+/// </summary>
+public class StatisticsDto
 {
     /// <summary>
-    /// Gets or sets Gets or sets идентификатор статистики, полученный от мобильного приложения Connect.
+    /// Идентификатор статистики, полученный от мобильного приложения Connect.
     /// </summary>
-    public T? ExternalId { get; set; }
+    public int ExternalId { get; set; }
 
     /// <summary>
-    /// Gets or sets имя пользователя.
+    /// Имя пользователя.
     /// </summary>
     public string? UserName { get; set; }
 
     /// <summary>
-    /// Gets or sets версия приложения.
+    /// Версия приложения.
     /// </summary>
     public string? ClientVersion { get; set; }
 
     /// <summary>
-    /// Gets or sets операционная система.
+    /// Операционная система.
     /// </summary>
     public string? Os { get; set; }
 
     /// <summary>
-    /// Gets or sets дата обновления статистики.
+    /// Дата обновления статистики.
     /// </summary>
     public DateTime UpdateDate { get; set; }
 }
