@@ -31,12 +31,16 @@ public class StatisticsService : IStatisticsService
     /// <inheritdoc />
     public async Task UpdateAsync(StatisticsForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var statistics = statisticsForUpdatingDto.Adapt<Statistics>();
+        statistics.UpdateDate = DateTime.Now;
+        await _statisticsRepository.UpdateAsync(statistics, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<StatisticsDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<StatisticsDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var statistics = await _statisticsRepository.GetAllAsync(cancellationToken);
+        var statisticsDto = statistics.Adapt<IReadOnlyCollection<StatisticsDto>>();
+        return statisticsDto;
     }
 }

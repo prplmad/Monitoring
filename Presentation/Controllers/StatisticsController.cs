@@ -29,9 +29,34 @@ public class StatisticsController : ControllerBase
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает IActionResult в ответ на запрос.</returns>
     [HttpPost]
-    public async Task<IActionResult> SendStatisticsAsync([FromBody] StatisticsForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> CreateStatisticsAsync([FromBody] StatisticsForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default)
     {
         await _statisticsService.CreateAsync(statisticsForCreationDto, cancellationToken);
         return Ok();
+    }
+
+    /// <summary>
+    /// Метод для обновления имеющейся статистики.
+    /// </summary>
+    /// <param name="statisticsForUpdatingDto">ДТО для обновления.</param>
+    /// <param name="cancellationToken">Токен для отмены задачи.</param>
+    /// <returns>Возвращает IActionResult в ответ на запрос.</returns>
+    [HttpPost]
+    public async Task<IActionResult> UpdateStatisticsAsync([FromBody] StatisticsForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default)
+    {
+        await _statisticsService.UpdateAsync(statisticsForUpdatingDto, cancellationToken);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Метод для получения всей имеющейся статистики.
+    /// </summary>
+    /// <param name="cancellationToken">Токен для отмены задачи.</param>
+    /// <returns>Возвращает всю имеющуюся статистику в формате JSON.</returns>
+    [HttpGet]
+    public async Task<IActionResult> GetAllStatisticsAsync(CancellationToken cancellationToken = default)
+    {
+        var statisticsDto = await _statisticsService.GetAllAsync(cancellationToken);
+        return Ok(statisticsDto);
     }
 }

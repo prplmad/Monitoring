@@ -17,20 +17,25 @@ public class StatisticsInMemoryRepository : IStatisticsRepository
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(Statistics item, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Statistics statistics, CancellationToken cancellationToken = default)
     {
-        _statistics.Add(item);
+        _statistics.Add(statistics);
     }
 
     /// <inheritdoc />
-    public async Task UpdateAsync(Statistics item, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Statistics statistics, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        Statistics statisticsForUpdating = _statistics.First(s => s.ExternalId == statistics.ExternalId);
+        statisticsForUpdating.Os = statistics.Os;
+        statisticsForUpdating.ClientVersion = statistics.ClientVersion;
+        statisticsForUpdating.UpdateDate = statistics.UpdateDate;
+        statisticsForUpdating.UserName = statistics.UserName;
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistics>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        IReadOnlyCollection<Statistics> sortedStatistics = _statistics.OrderBy(x => x.UpdateDate).ToList();
+        return sortedStatistics;
     }
 }

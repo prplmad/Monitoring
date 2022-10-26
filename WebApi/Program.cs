@@ -3,9 +3,13 @@ using Microsoft.OpenApi.Models;
 using Persistence.Repositories;
 using Presentation;
 using Services;
+using Serilog;
 using Services.Abstractions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.File("log.txt"));
 
 // Add services to the container.
 builder.Services.AddControllers()
