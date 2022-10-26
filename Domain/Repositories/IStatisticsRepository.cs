@@ -1,13 +1,12 @@
-﻿namespace Domain.Repositories;
+﻿using Domain.Entities;
 
-using Domain.Entities;
+namespace Domain.Repositories;
 
 /// <summary>
 /// Содержит методы для операций со статистикой в репозитории.
 /// </summary>
 public interface IStatisticsRepository
 {
-
     /// <summary>
     /// Метод для добавления новой статистики в коллецию.
     /// </summary>

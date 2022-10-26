@@ -1,6 +1,6 @@
-﻿namespace Services.Abstractions;
+﻿using Contracts;
 
-using Contracts;
+namespace Services.Abstractions;
 
 /// <summary>
 /// Сервис для операций со статистикой.
@@ -29,5 +29,4 @@ public interface IStatisticsService
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
     Task UpdateAsync(StatisticsForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default);
-
 }

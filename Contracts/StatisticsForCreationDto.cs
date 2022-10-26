@@ -1,6 +1,6 @@
-﻿namespace Contracts;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
+namespace Contracts;
 
 /// <summary>
 /// Dto для создания статистики.

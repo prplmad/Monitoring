@@ -1,7 +1,7 @@
-﻿namespace Persistence.Repositories;
-
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
+
+namespace Persistence.Repositories;
 
 /// <inheritdoc />
 public class StatisticsInMemoryRepository : IStatisticsRepository

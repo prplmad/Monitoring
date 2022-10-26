@@ -1,14 +1,15 @@
 using Domain.Repositories;
 using Microsoft.OpenApi.Models;
 using Persistence.Repositories;
-using Services.Abstractions;
+using Presentation;
 using Services;
+using Services.Abstractions;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+    .AddApplicationPart(typeof(AssemblyReference).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" }));
@@ -18,7 +19,7 @@ builder.Services
 builder.Services
     .AddScoped<IStatisticsService, StatisticsService>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

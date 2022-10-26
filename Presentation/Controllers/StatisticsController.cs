@@ -1,12 +1,12 @@
-﻿namespace Presentation.Controllers;
-
-using Contracts;
+﻿using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 
-    /// <summary>
-    /// Контроллер, обрабатывающий запросы на создание/обновление статистики.
-    /// </summary>
+namespace Presentation.Controllers;
+
+/// <summary>
+/// Контроллер, обрабатывающий запросы на создание/обновление статистики.
+/// </summary>
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class StatisticsController : ControllerBase
