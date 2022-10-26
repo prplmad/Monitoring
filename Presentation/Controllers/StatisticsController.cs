@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Services.Abstractions;
 
 namespace Presentation.Controllers;
@@ -31,6 +32,7 @@ public class StatisticsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateStatisticsAsync([FromBody] StatisticsForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default)
     {
+        Log.Information($"Получена статистика от мобильного приложения Connect");
         await _statisticsService.CreateAsync(statisticsForCreationDto, cancellationToken);
         return Ok();
     }

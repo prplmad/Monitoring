@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Serilog;
 
 namespace Services.Abstractions;
 

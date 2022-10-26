@@ -6,10 +6,13 @@ using Services;
 using Serilog;
 using Services.Abstractions;
 
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.File("log.txt"));
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
 // Add services to the container.
 builder.Services.AddControllers()
