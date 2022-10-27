@@ -32,7 +32,7 @@ public class StatisticController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateStatisticAsync([FromBody] StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
     {
-        Log.Information("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
+        Log.Debug("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
         await _statisticService.CreateAsync(statisticForCreationDto, cancellationToken);
         return Ok();
     }
@@ -46,7 +46,7 @@ public class StatisticController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> UpdateStatisticAsync([FromBody] StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
     {
-        Log.Information("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
+        Log.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
         await _statisticService.UpdateAsync(statisticForUpdatingDto, cancellationToken);
         return Ok();
     }
