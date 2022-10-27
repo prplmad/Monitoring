@@ -1,5 +1,4 @@
 ﻿using Contracts;
-using Serilog;
 
 namespace Services.Abstractions;
 
@@ -18,16 +17,16 @@ public interface IStatisticService
     /// <summary>
     /// Создание статистики.
     /// </summary>
-    /// <param name="statisticsForCreationDto">ДТО статистики.</param>
+    /// <param name="statisticForCreationDto">ДТО статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task CreateAsync(StatisticForCreationDto statisticsForCreationDto, CancellationToken cancellationToken = default);
+    Task CreateAsync(StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Обновление статистики.
     /// </summary>
-    /// <param name="statisticsForUpdatingDto">ДТО статистики.</param>
+    /// <param name="statisticForUpdatingDto">ДТО статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task UpdateAsync(StatisticForUpdatingDto statisticsForUpdatingDto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default);
 }

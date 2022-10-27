@@ -17,10 +17,10 @@ public class StatisticService : IStatisticService
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
-    /// <param name="statisticsRepository">Объект, реализующий интерфейс IStatisticsRepository.</param>
-    public StatisticService(IStatisticRepository statisticsRepository)
+    /// <param name="statisticRepository">Объект, реализующий интерфейс IStatisticRepository.</param>
+    public StatisticService(IStatisticRepository statisticRepository)
     {
-        _statisticRepository = statisticsRepository;
+        _statisticRepository = statisticRepository;
     }
 
     /// <inheritdoc />

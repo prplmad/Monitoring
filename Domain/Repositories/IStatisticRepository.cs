@@ -10,18 +10,18 @@ public interface IStatisticRepository
     /// <summary>
     /// Метод для добавления новой статистики в коллецию.
     /// </summary>
-    /// <param name="statistics">Объект статистики.</param>
+    /// <param name="statistic">Объект статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает Task.</returns>
-    Task CreateAsync(Statistic statistics, CancellationToken cancellationToken = default);
+    Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Метод для обновления уже имеющейся статистики.
     /// </summary>
-    /// <param name="statistics">Объект статистики.</param>
+    /// <param name="statistic">Объект статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает Task.</returns>
-    Task UpdateAsync(Statistic statistics, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Метод для получения всей имеющейся статистики.
