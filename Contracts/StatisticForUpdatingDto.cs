@@ -3,9 +3,9 @@
 namespace Contracts;
 
 /// <summary>
-/// Dto для создания статистики.
+/// Dto для обновления статистики.
 /// </summary>
-public class StatisticsForCreationDto
+public class StatisticForUpdatingDto
 {
     /// <summary>
     /// Идентификатор статистики, полученный от мобильного приложения Connect.

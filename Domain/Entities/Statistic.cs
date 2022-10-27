@@ -1,9 +1,9 @@
-﻿namespace Contracts;
+﻿namespace Domain.Entities;
 
 /// <summary>
-/// Dto статистики.
+/// Класс содержит поля экземпляра статистики.
 /// </summary>
-public class StatisticsDto
+public class Statistic
 {
     /// <summary>
     /// Идентификатор статистики, полученный от мобильного приложения Connect.

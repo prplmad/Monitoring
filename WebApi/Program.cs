@@ -22,9 +22,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" }));
 
 builder.Services
-    .AddSingleton<IStatisticsRepository, StatisticsInMemoryRepository>();
+    .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
 builder.Services
-    .AddScoped<IStatisticsService, StatisticsService>();
+    .AddScoped<IStatisticService, StatisticService>();
 
 WebApplication app = builder.Build();
 
