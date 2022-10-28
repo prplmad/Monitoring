@@ -1,4 +1,5 @@
 using Domain.Repositories;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.OpenApi.Models;
 using Persistence.Repositories;
 using Presentation;
@@ -18,22 +19,39 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" }));
 
 builder.Services
     .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "client/dist";
+});
+
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSpaStaticFiles();
+}
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "client";
+
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseAngularCliServer(npmScript: "start");
+    }
+});
 
 app.UseHttpsRedirection();
 
