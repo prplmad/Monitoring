@@ -42,7 +42,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseSpaStaticFiles();
 }
-
+app.MapControllers();
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "client";
@@ -56,6 +56,5 @@ app.UseSpa(spa =>
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapControllers();
 
 app.Run();
