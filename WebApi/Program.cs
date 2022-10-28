@@ -1,11 +1,11 @@
 using Domain.Repositories;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.OpenApi.Models;
 using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
 using Services.Abstractions;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -20,15 +20,15 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services
-    .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
-builder.Services
-    .AddScoped<IStatisticService, StatisticService>();
-
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "client/dist";
 });
+
+builder.Services
+    .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
+builder.Services
+    .AddScoped<IStatisticService, StatisticService>();
 
 WebApplication app = builder.Build();
 
