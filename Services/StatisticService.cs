@@ -13,14 +13,17 @@ namespace Services;
 public class StatisticService : IStatisticService
 {
     private readonly IStatisticRepository _statisticRepository;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
-    /// <param name="statisticRepository">Объект, реализующий интерфейс IStatisticRepository.</param>
-    public StatisticService(IStatisticRepository statisticRepository)
+    /// <param name="statisticRepository">Подключение репозитория.</param>
+    /// <param name="logger">Подключение логгера.</param>
+    public StatisticService(IStatisticRepository statisticRepository, ILogger logger)
     {
         _statisticRepository = statisticRepository;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -42,7 +45,7 @@ public class StatisticService : IStatisticService
         }
         catch (Exception)
         {
-            Log.Warning("Статистика с Id {@ExternalId} не найдена", statisticForUpdatingDto.ExternalId);
+            _logger.Warning("Статистика с Id {@ExternalId} не найдена", statisticForUpdatingDto.ExternalId);
             throw new StatisticNotFoundException(statisticForUpdatingDto.ExternalId);
         }
 
