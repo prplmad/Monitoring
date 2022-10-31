@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { DataService } from '../data.service';
 import { Statistic } from '../models/statistic'
 import {ReplaySubject, takeUntil} from "rxjs";
@@ -9,7 +9,7 @@ import {ReplaySubject, takeUntil} from "rxjs";
 })
 
 
-export class StatisticsListComponent implements OnInit {
+export class StatisticsListComponent implements OnInit, OnDestroy {
   statistics: Statistic[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
 
