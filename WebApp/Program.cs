@@ -28,6 +28,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerDocument();
 
 
 builder.Services
@@ -45,6 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 app.UseStaticFiles();
+
+app.UseOpenApi();
+app.UseSwaggerUi3();
 
 app.MapControllers();
 
