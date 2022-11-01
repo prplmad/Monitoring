@@ -13,14 +13,17 @@ namespace Presentation.Controllers;
 public class StatisticController : ControllerBase
 {
     private readonly IStatisticService _statisticService;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
     /// <param name="statisticService">Подключение сервиса статистики.</param>
-    public StatisticController(IStatisticService statisticService)
+    /// <param name="logger">Подключение логирования.</param>
+    public StatisticController(IStatisticService statisticService, ILogger logger)
     {
         _statisticService = statisticService;
+        _logger = logger;
     }
 
     /// <summary>
@@ -32,7 +35,7 @@ public class StatisticController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateStatisticAsync([FromBody] StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
     {
-        Log.Debug("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
+        _logger.Debug("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
         await _statisticService.CreateAsync(statisticForCreationDto, cancellationToken);
         return Ok();
     }
@@ -46,7 +49,7 @@ public class StatisticController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> UpdateStatisticAsync([FromBody] StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
     {
-        Log.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
+        _logger.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
         await _statisticService.UpdateAsync(statisticForUpdatingDto, cancellationToken);
         return Ok();
     }
