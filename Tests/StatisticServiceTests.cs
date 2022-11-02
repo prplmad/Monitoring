@@ -1,37 +1,44 @@
 using Contracts;
 using Domain.Entities;
 using Domain.Exceptions;
-using NUnit.Framework;
 using Moq;
 using Domain.Repositories;
 using Serilog;
 using Services;
+using Xunit;
 
 namespace Tests;
 
-[TestFixture]
+/// <summary>
+/// Тесты сервиса StatisticService.
+/// </summary>
 public class StatisticServiceTests
 {
     private StatisticService _statisticService;
     private Mock<IStatisticRepository> _statisticRepository;
     private Mock<ILogger> _logger;
 
-    [SetUp]
-    public void Setup()
+    /// <summary>
+    /// Конструктор для инициализации объектов, необходимых для тестов сервиса StatisticService.
+    /// </summary>
+    public StatisticServiceTests()
     {
         _statisticRepository = new Mock<IStatisticRepository>();
         _logger = new Mock<ILogger>();
         _statisticService = new StatisticService(_statisticRepository.Object, _logger.Object);
     }
 
-    [Test]
-    public void UpdateAsync_StatisticRepositoryThrowsException()
+    /// <summary>
+    /// Ожидается, что метод UpdateAsync сгенерирует исключение StatisticNotFoundException при отсутствии записи в репозитории.
+    /// </summary>
+    [Fact]
+    public void UpdateAsync_RecordNotFoundInRepository_ThrowsStatisticNotFoundException()
     {
         // Arrange
-        _statisticRepository.Setup(sr => sr.UpdateAsync(Moq.It.IsAny<Statistic>(), Moq.It.IsAny<CancellationToken>())).Throws(new Exception());
+        _statisticRepository.Setup(sr => sr.UpdateAsync(It.IsAny<Statistic>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         // Act
         _statisticService.UpdateAsync(It.IsAny<StatisticForUpdatingDto>(), It.IsAny<CancellationToken>());
         // Assert
-        Assert.Throws<StatisticNotFoundException>(() => { throw new StatisticNotFoundException(It.IsAny<int>()); });
+        Assert.ThrowsAsync<StatisticNotFoundException>(() => _statisticService.UpdateAsync(It.IsAny<StatisticForUpdatingDto>(), It.IsAny<CancellationToken>()));
     }
 }

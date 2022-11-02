@@ -3,7 +3,6 @@ using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
-using Serilog.Core;
 using Services.Abstractions;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
