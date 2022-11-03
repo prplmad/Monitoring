@@ -1,4 +1,6 @@
 using Domain.Repositories;
+using Persistence;
+using Persistence.Context;
 using Persistence.Repositories;
 using Presentation;
 using Services;
@@ -29,11 +31,11 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
-
-builder.Services
-    .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
+builder.Services.AddSingleton<DapperContext>();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
+builder.Services
+    .AddScoped<IStatisticRepository, StatisticRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 
