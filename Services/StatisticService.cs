@@ -43,12 +43,11 @@ public class StatisticService : IStatisticService
         {
             await _statisticRepository.UpdateAsync(statistic, cancellationToken);
         }
-        catch (Exception)
+        catch (InvalidOperationException)
         {
             _logger.Warning("Статистика с Id {@ExternalId} не найдена", statisticForUpdatingDto.ExternalId);
             throw new StatisticNotFoundException(statisticForUpdatingDto.ExternalId);
         }
-
     }
 
     /// <inheritdoc />
