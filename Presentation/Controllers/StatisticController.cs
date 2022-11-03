@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -75,6 +76,7 @@ public class StatisticController : ControllerBase
     /// <response code="200">Объект статистики успешно обновлен.</response>
     /// <response code="400">Не все параметры были заполнены или какие-то параметры были введены некорректно.</response>
     /// <response code="404">Объект статистики не найден.</response>
+    /// <response code="500">Ошибка сервера.</response>
     /// <param name="statisticForUpdatingDto">ДТО для обновления.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает IActionResult в ответ на запрос.</returns>
@@ -82,6 +84,7 @@ public class StatisticController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateStatisticAsync([FromBody] StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
     {
         _logger.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
@@ -90,9 +93,14 @@ public class StatisticController : ControllerBase
             await _statisticService.UpdateAsync(statisticForUpdatingDto, cancellationToken);
             return StatusCode(200);
         }
-        catch (Exception)
+        catch (StatisticNotFoundException)
         {
             return StatusCode(404);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("{Message}", e.Message);
+            return StatusCode(500);
         }
     }
 
