@@ -1,11 +1,13 @@
 using Domain.Repositories;
-using Persistence;
-using Persistence.Context;
+using Persistence.Connection;
 using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
 using Services.Abstractions;
+using FluentMigrator.Runner;
+using System.Reflection;
+using Persistence.Migrations;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -28,10 +30,20 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
+
+builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
+    .AddFluentMigratorCore()
+    .ConfigureRunner(c => c.AddPostgres11_0()
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb"))
+        .ScanIn(Assembly.Load("Persistence")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
-builder.Services.AddSingleton<DapperContext>();
+builder.Services
+    .AddSingleton<ConnectionFactory>();
+builder.Services
+    .AddSingleton<Database>();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
@@ -60,5 +72,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapFallbackToFile("index.html");
+
+app.MigrateDatabase();
 
 app.Run();
