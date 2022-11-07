@@ -10,7 +10,8 @@ namespace Persistence.Connection;
 public class ConnectionFactory
 {
     private readonly IConfiguration _configuration;
-    private readonly string _connectionString;
+    private readonly NpgsqlConnectionStringBuilder _connectionStringBuilder;
+    private readonly string _connection;
 
     /// <summary>
     /// Инициализация строки подключения и конфигурации.
@@ -19,7 +20,9 @@ public class ConnectionFactory
     public ConnectionFactory(IConfiguration configuration)
     {
         _configuration = configuration;
-        _connectionString = _configuration.GetConnectionString("MyDb");
+        _connectionStringBuilder = new NpgsqlConnectionStringBuilder(_configuration.GetConnectionString("MyDb"));
+        _connectionStringBuilder.Password = _configuration["DbPassword"];
+        _connection = _connectionStringBuilder.ConnectionString;
     }
 
     /// <summary>
@@ -27,5 +30,5 @@ public class ConnectionFactory
     /// </summary>
     /// <returns>IDbConnection.</returns>
     public IDbConnection CreateConnection()
-        => new NpgsqlConnection(_connectionString);
+        => new NpgsqlConnection(_connection);
 }

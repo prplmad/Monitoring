@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>..\..\..\Analyzer\infotecs.ruleset</CodeAnalysisRuleSet>
+    <UserSecretsId>2f03e0a9-95f7-4dc5-b2bd-2c0c1b2e5d68</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

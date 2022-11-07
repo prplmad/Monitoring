@@ -7,6 +7,7 @@ using Serilog;
 using Services.Abstractions;
 using FluentMigrator.Runner;
 using System.Reflection;
+using Npgsql;
 using Persistence.Migrations;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -31,10 +32,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 
+builder.Configuration.AddEnvironmentVariables(prefix: "Mobile_");
+
+var conStrBuilder = new NpgsqlConnectionStringBuilder(
+    builder.Configuration.GetConnectionString("MyDb"));
+conStrBuilder.Password = builder.Configuration["DbPassword"];
+var connection = conStrBuilder.ConnectionString;
+
 builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
     .AddFluentMigratorCore()
     .ConfigureRunner(c => c.AddPostgres11_0()
-        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb"))
+        .WithGlobalConnectionString(connection)
         .ScanIn(Assembly.Load("Persistence")));
 
 builder.Services.AddEndpointsApiExplorer();
