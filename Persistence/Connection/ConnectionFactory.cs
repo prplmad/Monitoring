@@ -4,10 +4,8 @@ using Npgsql;
 
 namespace Persistence.Connection;
 
-/// <summary>
-/// Класс для создания подключения к БД.
-/// </summary>
-public class ConnectionFactory
+/// <inheritdoc />
+public class ConnectionFactory : IConnectionFactory
 {
     private readonly IConfiguration _configuration;
     private readonly string _connectionString;
@@ -22,10 +20,7 @@ public class ConnectionFactory
         _connectionString = _configuration.GetConnectionString("MyDb");
     }
 
-    /// <summary>
-    /// Создание подключения.
-    /// </summary>
-    /// <returns>IDbConnection.</returns>
+    /// <inheritdoc />
     public IDbConnection CreateConnection()
         => new NpgsqlConnection(_connectionString);
 }

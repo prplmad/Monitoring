@@ -9,7 +9,7 @@
     <SpaRoot>client\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:28983</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-    <RootNamespace>WebApi</RootNamespace>
+    <RootNamespace>WebApp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

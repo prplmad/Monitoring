@@ -6,8 +6,8 @@ using Services;
 using Serilog;
 using Services.Abstractions;
 using FluentMigrator.Runner;
-using System.Reflection;
 using Persistence.Migrations;
+using WebApp.Extensions;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -35,15 +35,15 @@ builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
     .AddFluentMigratorCore()
     .ConfigureRunner(c => c.AddPostgres11_0()
         .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb"))
-        .ScanIn(Assembly.Load("Persistence")));
+        .ScanIn(typeof(AddStatisticTable_20221107).Assembly));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
 builder.Services
-    .AddSingleton<ConnectionFactory>();
+    .AddSingleton<IConnectionFactory, ConnectionFactory>();
 builder.Services
-    .AddSingleton<Database>();
+    .AddSingleton<DatabaseCreator>();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services

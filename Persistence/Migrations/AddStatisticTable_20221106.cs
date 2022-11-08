@@ -18,11 +18,11 @@ public class AddStatisticTable_20221107 : Migration
     public override void Up()
     {
         Create.Table("statistic")
-                .WithColumn("id").AsInt64().NotNullable().PrimaryKey().Identity()
-                .WithColumn("external_id").AsInt64().NotNullable()
-                .WithColumn("username").AsString().NotNullable()
-                .WithColumn("client_version").AsString().NotNullable()
-                .WithColumn("os").AsString().NotNullable()
-                .WithColumn("update_date").AsDateTime().NotNullable();
+            .WithColumn("id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("external_id").AsInt64().NotNullable()
+            .WithColumn("username").AsString()
+            .WithColumn("client_version").AsString()
+            .WithColumn("os").AsString()
+            .WithColumn("update_date").AsDateTime();
     }
 }
