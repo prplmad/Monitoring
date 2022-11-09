@@ -12,7 +12,7 @@ public static class DependencyInjectionExtencions
     /// <summary>
     /// Добавление сервисов IConnectionService, DatabaseCreator.
     /// </summary>
-    /// <param name="services">IServiceCollection.</param>
+    /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <returns>Сервисы IConnectionFactory, DatabaseCreator.</returns>
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
