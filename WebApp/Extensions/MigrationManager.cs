@@ -29,7 +29,7 @@ public static class MigrationManager
 
             migrationManagerService.ListMigrations();
             migrationManagerService.MigrateUp();
-            return host;
         }
+        return host;
     }
 }

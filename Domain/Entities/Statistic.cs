@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Entities;
+﻿namespace Domain.Entities;
 
 /// <summary>
 /// Класс содержит поля экземпляра статистики.
@@ -35,4 +33,6 @@ public class Statistic
     /// Дата обновления статистики.
     /// </summary>
     public DateTime? UpdateDate { get; set; }
+
+    public List<Event>? Events { get; set; }
 }
