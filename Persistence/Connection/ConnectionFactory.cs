@@ -17,7 +17,6 @@ public class ConnectionFactory : IConnectionFactory
     /// <param name="configuration">Конфигурация приложения.</param>
     public ConnectionFactory(IConfiguration configuration)
     {
-        DefaultTypeMap.MatchNamesWithUnderscores = true;
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("MyDb");
     }

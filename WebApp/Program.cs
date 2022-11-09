@@ -6,6 +6,7 @@ using Services;
 using Serilog;
 using Services.Abstractions;
 using FluentMigrator.Runner;
+using Persistence.Extensions.DependencyInjection;
 using Persistence.Migrations;
 using WebApp.Extensions;
 
@@ -46,9 +47,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
 builder.Services
-    .AddSingleton<IConnectionFactory, ConnectionFactory>();
-builder.Services
-    .AddSingleton<DatabaseCreator>();
+    .AddPersistence();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
