@@ -12,6 +12,10 @@ using WebApp.Extensions;
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables("Mobile_");
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -31,10 +35,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 
+
 builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
     .AddFluentMigratorCore()
     .ConfigureRunner(c => c.AddPostgres11_0()
-        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb"))
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb:ConnectionStrings"))
         .ScanIn(typeof(AddStatisticTable_20221107).Assembly));
 
 builder.Services.AddEndpointsApiExplorer();
