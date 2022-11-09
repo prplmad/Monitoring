@@ -1,12 +1,21 @@
 using Domain.Repositories;
+using Persistence.Connection;
 using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
 using Services.Abstractions;
+using FluentMigrator.Runner;
+using Persistence.Extensions.DependencyInjection;
+using Persistence.Migrations;
+using WebApp.Extensions;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables("Mobile_");
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -26,14 +35,23 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
+
+
+builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
+    .AddFluentMigratorCore()
+    .ConfigureRunner(c => c.AddPostgres11_0()
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb:ConnectionStrings"))
+        .ScanIn(typeof(AddStatisticTable_20221107).Assembly));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
-
 builder.Services
-    .AddSingleton<IStatisticRepository, StatisticInMemoryRepository>();
+    .AddPersistence();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
+builder.Services
+    .AddScoped<IStatisticRepository, StatisticRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 
@@ -58,5 +76,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapFallbackToFile("index.html");
+
+app.MigrateDatabase();
 
 app.Run();

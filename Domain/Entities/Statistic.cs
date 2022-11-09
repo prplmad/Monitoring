@@ -1,10 +1,16 @@
-﻿namespace Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Entities;
 
 /// <summary>
 /// Класс содержит поля экземпляра статистики.
 /// </summary>
 public class Statistic
 {
+    /// <summary>
+    /// Идентификатор статистики.
+    /// </summary>
+    public int Id { get; set; }
     /// <summary>
     /// Идентификатор статистики, полученный от мобильного приложения Connect.
     /// </summary>
@@ -28,5 +34,5 @@ public class Statistic
     /// <summary>
     /// Дата обновления статистики.
     /// </summary>
-    public DateTime UpdateDate { get; set; }
+    public DateTime? UpdateDate { get; set; }
 }

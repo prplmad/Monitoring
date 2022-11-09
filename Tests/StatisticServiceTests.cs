@@ -33,6 +33,7 @@ public class StatisticServiceTests
     /// <summary>
     /// Ожидается, что метод UpdateAsync сгенерирует исключение StatisticNotFoundException при отсутствии записи в репозитории.
     /// </summary>
+    /// <returns>Task.</returns>
     [Fact]
     public async Task UpdateAsync_RecordNotFoundInRepository_ThrowsStatisticNotFoundException()
     {
