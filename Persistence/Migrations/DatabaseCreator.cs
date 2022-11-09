@@ -11,15 +11,18 @@ public class DatabaseCreator
     /// <summary>
     /// Инициализация connectionFactory.
     /// </summary>
-    /// <param name="connectionFactory"></param>
+    /// <param name="connectionFactory">Объект фабрики подключений.</param>
     public DatabaseCreator(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
-    public void CreateDatabase(string? dbName)
+    /// <summary>
+    /// Создание базы данных.
+    /// </summary>
+    /// <param name="dbName">Название базы данных.</param>
+    public void Create(string? dbName)
     {
-        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         var parameters = new { name = dbName };
         var query = "SELECT datname FROM pg_database where datname = @name";
 

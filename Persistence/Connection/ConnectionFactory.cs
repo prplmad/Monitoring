@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -13,14 +14,17 @@ public class ConnectionFactory : IConnectionFactory
     /// <summary>
     /// Инициализация строки подключения и конфигурации.
     /// </summary>
-    /// <param name="configuration">Конфигурация приложения appsettings.json.</param>
+    /// <param name="configuration">Конфигурация приложения.</param>
     public ConnectionFactory(IConfiguration configuration)
     {
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("MyDb");
     }
 
     /// <inheritdoc />
     public IDbConnection CreateConnection()
-        => new NpgsqlConnection(_connectionString);
+    {
+        return new NpgsqlConnection(_connectionString);
+    }
 }
