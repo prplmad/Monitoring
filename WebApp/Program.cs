@@ -1,5 +1,4 @@
 using Domain.Repositories;
-using Persistence.Connection;
 using Persistence.Repositories;
 using Presentation;
 using Services;
@@ -40,7 +39,7 @@ builder.Services.AddControllers()
 builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
     .AddFluentMigratorCore()
     .ConfigureRunner(c => c.AddPostgres11_0()
-        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb:ConnectionStrings"))
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb"))
         .ScanIn(typeof(AddStatisticTable_20221107).Assembly));
 
 builder.Services.AddEndpointsApiExplorer();
@@ -52,6 +51,10 @@ builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
     .AddScoped<IStatisticRepository, StatisticRepository>();
+builder.Services
+    .AddScoped<IEventService, EventService>();
+builder.Services
+    .AddScoped<IEventRepository, EventRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 

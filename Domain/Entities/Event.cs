@@ -15,12 +15,12 @@ public class Event
     /// Наименование события.
     /// </summary>
     [StringLength(50)]
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Узел события.
     /// </summary>
-    public Statistic Statistic { get; set; }
+    public int StatisticId { get; set; }
 
     /// <summary>
     /// Дата события.

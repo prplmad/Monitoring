@@ -19,7 +19,7 @@ public static class MigrationManager
         using (var scope = host.Services.CreateScope())
         {
             var databaseCreatorService = scope.ServiceProvider.GetRequiredService<DatabaseCreator>();
-            var migrationManagerService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+            var migrationRunnerService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
             var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             var connectionStringBuilder = new NpgsqlConnectionStringBuilder(configuration.GetConnectionString("MyDb"));
@@ -27,8 +27,8 @@ public static class MigrationManager
 
             databaseCreatorService.Create(database);
 
-            migrationManagerService.ListMigrations();
-            migrationManagerService.MigrateUp();
+            migrationRunnerService.ListMigrations();
+            migrationRunnerService.MigrateUp();
         }
         return host;
     }

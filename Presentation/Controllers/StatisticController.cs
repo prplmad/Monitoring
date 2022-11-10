@@ -35,13 +35,18 @@ public class StatisticController : ControllerBase
     /// Пример запроса:
     ///
     ///     POST /CreateStatistic
-    ///     {
-    ///        "ExternalId":1,
-    ///        "ClientVersion":"5.19",
-    ///        "UserName":"Pavel Ivanov",
-    ///        "OS":"Windows"
-    ///     }.
-    ///
+    /// {
+    ///    "externalId": 1,
+    ///    "userName": "Denis Petrov",
+    ///    "clientVersion": "3.17",
+    ///    "os": "Android",
+    ///    "events": [
+    ///    {
+    ///       "name": "startVpn",
+    ///        "date": "2022-11-10T10:58:11.262Z"
+    ///    }
+    ///    ]
+    /// }
     /// </remarks>
     /// <response code="201">Объект статистики успешно создан.</response>
     /// <response code="400">Не все параметры были заполнены или какие-то параметры были введены некорректно.</response>
@@ -51,11 +56,20 @@ public class StatisticController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateStatisticAsync([FromBody] StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
     {
-        _logger.Debug("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
-        await _statisticService.CreateAsync(statisticForCreationDto, cancellationToken);
-        return StatusCode(201);
+        try
+        {
+            _logger.Debug("Получен запрос на добавление статистики мобильного приложения Connect {@StatisticForCreationDto}", statisticForCreationDto);
+            await _statisticService.CreateAsync(statisticForCreationDto, cancellationToken);
+            return StatusCode(201);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("{Message}", e.Message);
+            return StatusCode(500);
+        }
     }
 
     /// <summary>
@@ -122,7 +136,7 @@ public class StatisticController : ControllerBase
     public async Task<IReadOnlyCollection<StatisticDto>> GetAllStatisticsAsync(CancellationToken cancellationToken = default)
     {
         Log.Information("Получен запрос на получение всей имеющейся статистики");
-        var statisticDto = await _statisticService.GetAllAsync(cancellationToken);
-        return statisticDto;
+        var statisticDtos = await _statisticService.GetAllAsync(cancellationToken);
+        return statisticDtos;
     }
 }

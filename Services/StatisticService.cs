@@ -53,8 +53,8 @@ public class StatisticService : IStatisticService
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<StatisticDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var statistic = await _statisticRepository.GetAllAsync(cancellationToken);
-        var statisticDto = statistic.Adapt<IReadOnlyCollection<StatisticDto>>();
-        return statisticDto;
+        var statistics = await _statisticRepository.GetAllAsync(cancellationToken);
+        var statisticDtos = statistics.Adapt<IReadOnlyCollection<StatisticDto>>();
+        return statisticDtos;
     }
 }

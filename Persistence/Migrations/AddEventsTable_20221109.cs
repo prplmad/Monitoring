@@ -17,7 +17,7 @@ public class AddEventsTable_20221109 : Migration
         Create.Table("event")
             .WithColumn("id").AsInt64().PrimaryKey().Identity()
             .WithColumn("statistic_id").AsInt64().NotNullable()
-            .WithColumn("name").AsString(50).Nullable()
+            .WithColumn("name").AsString(50).NotNullable()
             .WithColumn("date").AsDateTime();
 
 

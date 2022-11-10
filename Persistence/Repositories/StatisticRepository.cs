@@ -22,10 +22,27 @@ public class StatisticRepository : IStatisticRepository
     /// <inheritdoc />
     public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken)
     {
-        var query = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW())";
+        var insertStatisticQuery = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW())";
+        var selectQuery = "SELECT id FROM statistic WHERE external_id = @ExternalId";
+
         using (var connection = _connectionFactory.CreateConnection())
         {
-            await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken));
+            connection.Open();
+            using (var transaction = connection.BeginTransaction())
+            {
+                await connection.ExecuteAsync(new CommandDefinition(insertStatisticQuery, statistic, cancellationToken: cancellationToken));
+                var statisticId = await connection.QuerySingleAsync<int>(new CommandDefinition(selectQuery, statistic, cancellationToken: cancellationToken));
+                var insertEventQuery = "INSERT INTO event (statistic_id, name, date) VALUES (@StatisticId, @Name, @Date)";
+                if (statistic.Events != null && statistic.Events.Count > 0)
+                {
+                    foreach (var statisticEvent in statistic.Events)
+                    {
+                        var eventParameters = new { statisticId, statisticEvent.Name, statisticEvent.Date };
+                        await connection.ExecuteAsync(new CommandDefinition(insertEventQuery, eventParameters, cancellationToken: cancellationToken, transaction: transaction));
+                    }
+                }
+                transaction.Commit();
+            }
         }
     }
 

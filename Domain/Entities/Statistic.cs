@@ -32,7 +32,7 @@ public class Statistic
     /// <summary>
     /// Дата обновления статистики.
     /// </summary>
-    public DateTime? UpdateDate { get; set; }
+    public DateTime UpdateDate { get; set; }
 
-    public List<Event>? Events { get; set; }
+    public List<Event>? Events { get; set; } = new List<Event>();
 }

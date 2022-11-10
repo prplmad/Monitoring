@@ -6,6 +6,10 @@
 public class StatisticDto
 {
     /// <summary>
+    /// Идентификатор статистики.
+    /// </summary>
+    public int Id { get; set; }
+    /// <summary>
     /// Идентификатор статистики, полученный от мобильного приложения Connect.
     /// </summary>
     public int ExternalId { get; set; }
