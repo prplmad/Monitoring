@@ -34,7 +34,7 @@ public class StatisticController : ControllerBase
     /// <remarks>
     /// Пример запроса:
     ///
-    ///     POST /CreateStatistic
+    ///     POST /Create
     /// {
     ///    "externalId": 1,
     ///    "userName": "Denis Petrov",
@@ -46,7 +46,7 @@ public class StatisticController : ControllerBase
     ///        "date": "2022-11-10T10:58:11.262Z"
     ///    }
     ///    ]
-    /// }
+    /// }.
     /// </remarks>
     /// <response code="201">Объект статистики успешно создан.</response>
     /// <response code="400">Не все параметры были заполнены или какие-то параметры были введены некорректно.</response>
@@ -57,7 +57,7 @@ public class StatisticController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateStatisticAsync([FromBody] StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> CreateAsync([FromBody] StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -78,7 +78,7 @@ public class StatisticController : ControllerBase
     /// <remarks>
     /// Пример запроса:
     ///
-    ///     POST /UpdateStatistic
+    ///     POST /Update
     ///     {
     ///        "ExternalId":1,
     ///        "ClientVersion":"5.20",
@@ -99,7 +99,7 @@ public class StatisticController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateStatisticAsync([FromBody] StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> UpdateAsync([FromBody] StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
     {
         _logger.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingDto}", statisticForUpdatingDto);
         try
@@ -124,16 +124,16 @@ public class StatisticController : ControllerBase
     /// <remarks>
     /// Пример запроса:
     ///
-    ///     GET /GetAllStatistics
+    ///     GET /GetAll
     ///     {
     ///
     ///     }.
     ///
     /// </remarks>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
-    /// <returns>Возвращает всю имеющуюся статистику в формате JSON.</returns>
+    /// <returns>Возвращает всю имеющуюся статистику.</returns>
     [HttpGet]
-    public async Task<IReadOnlyCollection<StatisticDto>> GetAllStatisticsAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<StatisticDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         Log.Information("Получен запрос на получение всей имеющейся статистики");
         var statisticDtos = await _statisticService.GetAllAsync(cancellationToken);

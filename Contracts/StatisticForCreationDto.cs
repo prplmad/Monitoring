@@ -34,11 +34,4 @@ public class StatisticForCreationDto
     [StringLength(30, ErrorMessage = "Длина наименования Os должна быть не больше 30 символов")]
     public string? Os { get; set; }
 
-    /// <summary>
-    /// Список событий.
-    /// </summary>
-    [Required(ErrorMessage = "Events is required")]
-    public List<EventForCreationDto>? Events { get; set; }
-
-
 }

@@ -15,7 +15,7 @@ public class Event
     /// Наименование события.
     /// </summary>
     [StringLength(50)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Узел события.

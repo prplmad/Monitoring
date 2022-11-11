@@ -34,5 +34,5 @@ public class Statistic
     /// </summary>
     public DateTime UpdateDate { get; set; }
 
-    public List<Event>? Events { get; set; } = new List<Event>();
+    public IEnumerable<Event>? Events { get; set; }
 }
