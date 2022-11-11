@@ -30,8 +30,8 @@ public class StatisticRepository : IStatisticRepository
             connection.Open();
             using (var transaction = connection.BeginTransaction())
             {
-                await connection.ExecuteAsync(new CommandDefinition(insertStatisticQuery, statistic, cancellationToken: cancellationToken));
-                var statisticId = await connection.QuerySingleAsync<int>(new CommandDefinition(selectQuery, statistic, cancellationToken: cancellationToken));
+                await connection.ExecuteAsync(new CommandDefinition(insertStatisticQuery, statistic, cancellationToken: cancellationToken, transaction: transaction));
+                var statisticId = await connection.QuerySingleAsync<int>(new CommandDefinition(selectQuery, statistic, cancellationToken: cancellationToken, transaction: transaction));
                 var insertEventQuery = "INSERT INTO event (statistic_id, name, date) VALUES (@StatisticId, @Name, @Date)";
                 if (statistic.Events != null && statistic.Events.Count > 0)
                 {
