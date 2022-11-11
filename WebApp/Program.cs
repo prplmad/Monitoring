@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Domain.Repositories;
 using Persistence.Repositories;
 using Presentation;
@@ -8,6 +9,7 @@ using FluentMigrator.Runner;
 using Persistence.Extensions.DependencyInjection;
 using Persistence.Migrations;
 using WebApp.Extensions;
+
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

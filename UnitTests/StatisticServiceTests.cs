@@ -7,7 +7,7 @@ using Serilog;
 using Services;
 using Xunit;
 
-namespace Tests;
+namespace UnitTests;
 
 /// <summary>
 /// Тесты сервиса StatisticService.

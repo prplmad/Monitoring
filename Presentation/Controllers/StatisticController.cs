@@ -35,18 +35,12 @@ public class StatisticController : ControllerBase
     /// Пример запроса:
     ///
     ///     POST /Create
-    /// {
-    ///    "externalId": 1,
-    ///    "userName": "Denis Petrov",
-    ///    "clientVersion": "3.17",
-    ///    "os": "Android",
-    ///    "events": [
-    ///    {
-    ///       "name": "startVpn",
-    ///        "date": "2022-11-10T10:58:11.262Z"
-    ///    }
-    ///    ]
-    /// }.
+    ///     {
+    ///        "ExternalId":1,
+    ///        "ClientVersion":"5.19",
+    ///        "UserName":"Pavel Ivanov",
+    ///        "OS":"Windows"
+    ///     }.
     /// </remarks>
     /// <response code="201">Объект статистики успешно создан.</response>
     /// <response code="400">Не все параметры были заполнены или какие-то параметры были введены некорректно.</response>
