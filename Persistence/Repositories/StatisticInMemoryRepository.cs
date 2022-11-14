@@ -38,4 +38,6 @@ public class StatisticInMemoryRepository : IStatisticRepository
         IReadOnlyCollection<Statistic> sortedStatistics = _statistic.OrderBy(x => x.UpdateDate).ToList();
         return sortedStatistics;
     }
+
+    public Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

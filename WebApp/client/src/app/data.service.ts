@@ -14,6 +14,6 @@ export class DataService {
 
   getStatistics() : Observable<Statistic[]>
   {
-    return this.http.get<Statistic[]>(this.apiBaseUrl + '/api/Statistic/GetAllStatistics');
+    return this.http.get<Statistic[]>(this.apiBaseUrl + '/api/Statistic/GetAll');
   }
 }

@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using Persistence.Connection;
 using Dapper;
+using Npgsql;
 
 namespace Persistence.Repositories;
 
@@ -20,16 +21,13 @@ public class EventRepository : IEventRepository
     }
 
     /// <inheritdoc />
-    public async Task<Statistic> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken = default)
     {
-        var selectStatisticQuery = $"select * from statistic where id = {statisticId}";
         var query = $"SELECT * FROM event where statistic_id = {statisticId}";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            Statistic statisticWithEvents = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(selectStatisticQuery, cancellationToken: cancellationToken));
             var events = await connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken));
-            statisticWithEvents.Events = events;
-            return statisticWithEvents;
+            return events.ToList();
         }
     }
 

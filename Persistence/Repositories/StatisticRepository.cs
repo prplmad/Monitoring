@@ -49,4 +49,15 @@ public class StatisticRepository : IStatisticRepository
             return statistics.ToList();
         }
     }
+
+    /// <inheritdoc />
+    public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var query = $"SELECT * FROM statistic WHERE id = {id}";
+        using (var connection = _connectionFactory.CreateConnection())
+        {
+            var statistic = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
+            return statistic;
+        }
+    }
 }

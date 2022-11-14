@@ -11,11 +11,12 @@ public class Event
     /// Идентификатор события.
     /// </summary>
     public int Id { get; set; }
+
     /// <summary>
     /// Наименование события.
     /// </summary>
     [StringLength(50)]
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Узел события.

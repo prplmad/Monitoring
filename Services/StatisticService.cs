@@ -1,8 +1,6 @@
-﻿using Contracts;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
-using Mapster;
 using Serilog;
 using Services.Abstractions;
 
@@ -27,34 +25,38 @@ public class StatisticService : IStatisticService
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        var statistic = statisticForCreationDto.Adapt<Statistic>();
         statistic.UpdateDate = DateTime.Now;
         await _statisticRepository.CreateAsync(statistic, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task UpdateAsync(StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        var statistic = statisticForUpdatingDto.Adapt<Statistic>();
         statistic.UpdateDate = DateTime.Now;
-        try
-        {
-            await _statisticRepository.UpdateAsync(statistic, cancellationToken);
-        }
-        catch (InvalidOperationException)
-        {
-            _logger.Warning("Статистика с Id {@ExternalId} не найдена", statisticForUpdatingDto.ExternalId);
-            throw new StatisticNotFoundException(statisticForUpdatingDto.ExternalId);
-        }
+        await _statisticRepository.UpdateAsync(statistic, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<StatisticDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var statistics = await _statisticRepository.GetAllAsync(cancellationToken);
-        var statisticDtos = statistics.Adapt<IReadOnlyCollection<StatisticDto>>();
-        return statisticDtos;
+        return statistics;
+    }
+
+    /// <inheritdoc />
+    public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var statistic = await _statisticRepository.GetByIdAsync(id, cancellationToken);
+            return statistic;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new StatisticNotFoundException(id);
+        }
+
     }
 }

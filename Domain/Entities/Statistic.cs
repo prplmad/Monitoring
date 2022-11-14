@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Entities;
 
 /// <summary>
 /// Класс содержит поля экземпляра статистики.
@@ -17,22 +19,23 @@ public class Statistic
     /// <summary>
     /// Имя пользователя.
     /// </summary>
+    [StringLength(100)]
     public string? UserName { get; set; }
 
     /// <summary>
     /// Версия приложения.
     /// </summary>
+    [StringLength(30)]
     public string? ClientVersion { get; set; }
 
     /// <summary>
     /// Операционная система.
     /// </summary>
+    [StringLength(30)]
     public string? Os { get; set; }
 
     /// <summary>
     /// Дата обновления статистики.
     /// </summary>
     public DateTime UpdateDate { get; set; }
-
-    public IEnumerable<Event>? Events { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using Contracts;
 using Domain.Entities;
-using Domain.Exceptions;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -36,11 +36,12 @@ public class EventController : ControllerBase
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Коллекция событий одной статистики.</returns>
     [HttpGet]
-    public async Task<StatisticWithEventsDto> GetEventsByStatisticIdAsync(int statisticId,CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<EventResponse>> GetEventsByStatisticIdAsync(int statisticId,CancellationToken cancellationToken)
     {
         Log.Information("Получен запрос на получение событий статистики");
-        var statisticWithEventsDto = await _eventService.GetEventsByStatisticIdAsync(statisticId, cancellationToken);
-        return statisticWithEventsDto;
+        var events = await _eventService.GetEventsByStatisticIdAsync(statisticId, cancellationToken);
+        var eventDtos = events.Adapt<IReadOnlyCollection<EventResponse>>();
+        return eventDtos;
     }
 
     /// <summary>
@@ -56,24 +57,21 @@ public class EventController : ControllerBase
     ///         "date": "2022-11-11T10:15:42.930Z"
     ///     }.
     /// </remarks>
-    /// <param name="eventForCreationDto">ДТО события для создания.</param>
+    /// <param name="eventForCreationRequest">ДТО события для создания.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает IActionResult в ответ на запрос.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateAsync ([FromBody] EventForCreationDto eventForCreationDto,CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAsync ([FromBody] EventForCreationRequest eventForCreationRequest,CancellationToken cancellationToken)
     {
+        Log.Information("Получен запрос на добавление события");
         try
         {
-            Log.Information("Получен запрос на добавление события");
-            await _eventService.CreateAsync(eventForCreationDto, cancellationToken);
+            var eventForCreation = eventForCreationRequest.Adapt<Event>();
+            await _eventService.CreateAsync(eventForCreation, cancellationToken);
             return StatusCode(201);
-        }
-        catch (StatisticNotFoundException)
-        {
-            return StatusCode(404);
         }
         catch (Exception e)
         {

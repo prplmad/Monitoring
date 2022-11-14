@@ -1,10 +1,8 @@
-﻿using Contracts;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
 using Services.Abstractions;
 using Serilog;
-using Mapster;
 
 namespace Services;
 
@@ -26,35 +24,15 @@ public class EventService : IEventService
     }
 
     /// <inheritdoc/>
-    public async Task<StatisticWithEventsDto> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken)
     {
-        try
-        {
-            var statisticWithEvents = await _eventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
-            var statisticWithEventsDtos = statisticWithEvents.Adapt<StatisticWithEventsDto>();
-            return statisticWithEventsDtos;
-        }
-        catch (InvalidOperationException)
-        {
-            _logger.Warning("Статистика с Id {@Id} не найдена", statisticId);
-            throw new StatisticNotFoundException(statisticId);
-        }
-
+        var events = await _eventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
+        return events;
     }
 
     /// <inheritdoc/>
-    public async Task CreateAsync(EventForCreationDto eventForCreationDto, CancellationToken cancellationToken)
+    public async Task CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
     {
-        try
-        {
-            var eventForCreation = eventForCreationDto.Adapt<Event>();
-            var statisticExternalId = eventForCreationDto.StatisticId;
-            await _eventRepository.CreateAsync(eventForCreation, cancellationToken);
-        }
-        catch (InvalidOperationException)
-        {
-            _logger.Warning("Статистика с Id {@ExternalId} не найдена", eventForCreationDto.StatisticId);
-            throw new StatisticNotFoundException(eventForCreationDto.StatisticId);
-        }
+        await _eventRepository.CreateAsync(eventForCreation, cancellationToken);
     }
 }

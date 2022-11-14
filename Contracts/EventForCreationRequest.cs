@@ -3,12 +3,18 @@
 namespace Contracts;
 
 /// <summary>
-/// ДТО события.
+/// ДТО для создания события.
 /// </summary>
-public class EventDto
+public class EventForCreationRequest
 {
     /// <summary>
-    /// Наименования события.
+    /// Id статистики.
+    /// </summary>
+    [Required(ErrorMessage = "ExternalId is required")]
+    public int StatisticId { get; set; }
+
+    /// <summary>
+    /// Название события.
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     public string Name { get; set; }

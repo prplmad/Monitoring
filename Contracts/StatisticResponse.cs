@@ -3,7 +3,7 @@
 /// <summary>
 /// Dto статистики.
 /// </summary>
-public class StatisticDto
+public class StatisticResponse
 {
     /// <summary>
     /// Идентификатор статистики.
