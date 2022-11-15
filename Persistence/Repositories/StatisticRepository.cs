@@ -33,7 +33,6 @@ public class StatisticRepository : IStatisticRepository
     public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken)
     {
         var query = "UPDATE statistic SET username = @UserName, client_version = @ClientVersion, os = @Os, update_date = NOW() WHERE external_id = @ExternalId";
-
         using (var connection = _connectionFactory.CreateConnection())
         {
             await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken));
@@ -48,6 +47,17 @@ public class StatisticRepository : IStatisticRepository
         {
             var statistics = await connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return statistics.ToList();
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var query = $"SELECT * FROM statistic WHERE id = {id}";
+        using (var connection = _connectionFactory.CreateConnection())
+        {
+            var statistic = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
+            return statistic;
         }
     }
 }

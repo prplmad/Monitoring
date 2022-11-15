@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Domain.Entities;
 
 namespace Services.Abstractions;
 
@@ -12,21 +13,29 @@ public interface IStatisticService
     /// </summary>
     /// <param name="cancellationToken"> Токен для отмены задачи.</param>
     /// <returns>Возвращается коллекция с элементами статистики.</returns>
-    Task<IReadOnlyCollection<StatisticDto>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Создание статистики.
     /// </summary>
-    /// <param name="statisticForCreationDto">ДТО статистики.</param>
+    /// <param name="statistic">Модель статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task CreateAsync(StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default);
+    Task CreateAsync(Statistic statistic, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновление статистики.
     /// </summary>
-    /// <param name="statisticForUpdatingDto">ДТО статистики.</param>
+    /// <param name="statistic">Модель статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task UpdateAsync(StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Получение статистики по Id.
+    /// </summary>
+    /// <param name="statisticId">Id статистики.</param>
+    /// <param name="cancellationToken">Токен для отмены задачи.</param>
+    /// <returns><see cref="Statistic"/>.</returns>
+    Task<Statistic> GetByIdAsync(int statisticId, CancellationToken cancellationToken);
 }

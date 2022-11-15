@@ -29,4 +29,6 @@ public interface IStatisticRepository
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает readonly коллекцию со всей имеющейся статистикой.</returns>
     Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default);
+
+    Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 }

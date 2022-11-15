@@ -1,14 +1,17 @@
-﻿namespace Contracts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts;
 
 /// <summary>
 /// Dto статистики.
 /// </summary>
-public class StatisticDto
+public class StatisticResponse
 {
     /// <summary>
-    /// Идентификатор статистики, полученный от мобильного приложения Connect.
+    /// Идентификатор статистики.
     /// </summary>
-    public int ExternalId { get; set; }
+    [Required(ErrorMessage = "Id is required")]
+    public int Id { get; set; }
 
     /// <summary>
     /// Имя пользователя.
@@ -28,5 +31,6 @@ public class StatisticDto
     /// <summary>
     /// Дата обновления статистики.
     /// </summary>
+    [Required(ErrorMessage = "UpdateDate is required")]
     public DateTime UpdateDate { get; set; }
 }

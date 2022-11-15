@@ -1,16 +1,17 @@
+using Domain.Entities;
 using Domain.Repositories;
-using Persistence.Connection;
+using Domain.Validators;
+using FluentValidation;
 using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
 using Services.Abstractions;
-using FluentMigrator.Runner;
 using Persistence.Extensions.DependencyInjection;
-using Persistence.Migrations;
 using WebApp.Extensions;
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
@@ -22,36 +23,24 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .CreateLogger();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("https://localhost:7130",
-                "https://localhost:28983");
-        });
-});
-
+builder.Services.ConfigureCors(myAllowSpecificOrigins);
 // Add services to the container.
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
-
-
-builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
-    .AddFluentMigratorCore()
-    .ConfigureRunner(c => c.AddPostgres11_0()
-        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("MyDb:ConnectionStrings"))
-        .ScanIn(typeof(AddStatisticTable_20221107).Assembly));
-
+builder.Services.AddValidatorsFromAssemblyContaining<StatisticValidator>();
+builder.Services.ConfigureFluentMigrator(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
-
 builder.Services
     .AddPersistence();
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
     .AddScoped<IStatisticRepository, StatisticRepository>();
+builder.Services
+    .AddScoped<IEventService, EventService>();
+builder.Services
+    .AddScoped<IEventRepository, EventRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 
@@ -71,7 +60,7 @@ app.MapControllers();
 
 app.UseHttpsRedirection();
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(myAllowSpecificOrigins);
 
 app.UseAuthorization();
 

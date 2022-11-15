@@ -24,7 +24,7 @@ public class EditStatisticTable_20221108 : Migration
             .AlterColumn("username").AsString().Nullable()
             .AlterColumn("client_version").AsString().Nullable()
             .AlterColumn("os").AsString().Nullable()
-            .AlterColumn("update_date").AsDateTime().Nullable();
+            .AlterColumn("update_date").AsDateTime().NotNullable();
     }
 
 }

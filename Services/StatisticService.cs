@@ -1,8 +1,8 @@
-﻿using Contracts;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
-using Mapster;
+using FluentValidation;
+using FluentValidation.Results;
 using Serilog;
 using Services.Abstractions;
 
@@ -12,6 +12,7 @@ namespace Services;
 /// <inheritdoc/>
 public class StatisticService : IStatisticService
 {
+    private readonly IValidator<Statistic> _validator;
     private readonly IStatisticRepository _statisticRepository;
     private readonly ILogger _logger;
 
@@ -20,41 +21,57 @@ public class StatisticService : IStatisticService
     /// </summary>
     /// <param name="statisticRepository">Подключение репозитория.</param>
     /// <param name="logger">Подключение логгера.</param>
-    public StatisticService(IStatisticRepository statisticRepository, ILogger logger)
+    /// <param name="validator">Валидатор статистики.</param>
+    public StatisticService(IStatisticRepository statisticRepository, ILogger logger, IValidator<Statistic> validator)
     {
         _statisticRepository = statisticRepository;
         _logger = logger;
+        _validator = validator;
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(StatisticForCreationDto statisticForCreationDto, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        var statistic = statisticForCreationDto.Adapt<Statistic>();
-        statistic.UpdateDate = DateTime.Now;
+        ValidationResult result = await _validator.ValidateAsync(statistic);
+        if (!result.IsValid)
+        {
+            _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
+            throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
+        }
         await _statisticRepository.CreateAsync(statistic, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task UpdateAsync(StatisticForUpdatingDto statisticForUpdatingDto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        var statistic = statisticForUpdatingDto.Adapt<Statistic>();
-        statistic.UpdateDate = DateTime.Now;
-        try
+        ValidationResult result = await _validator.ValidateAsync(statistic);
+        if (!result.IsValid)
         {
-            await _statisticRepository.UpdateAsync(statistic, cancellationToken);
+            _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
+            throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        catch (InvalidOperationException)
-        {
-            _logger.Warning("Статистика с Id {@ExternalId} не найдена", statisticForUpdatingDto.ExternalId);
-            throw new StatisticNotFoundException(statisticForUpdatingDto.ExternalId);
-        }
+        await _statisticRepository.UpdateAsync(statistic, cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<StatisticDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var statistic = await _statisticRepository.GetAllAsync(cancellationToken);
-        var statisticDto = statistic.Adapt<IReadOnlyCollection<StatisticDto>>();
-        return statisticDto;
+        var statistics = await _statisticRepository.GetAllAsync(cancellationToken);
+        return statistics;
+    }
+
+    /// <inheritdoc />
+    public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var statistic = await _statisticRepository.GetByIdAsync(id, cancellationToken);
+            return statistic;
+        }
+        catch (InvalidOperationException)
+        {
+            throw new StatisticNotFoundException(id);
+        }
+
     }
 }
