@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Domain.Entities;
 using Domain.Exceptions;
+using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,10 @@ public class StatisticController : ControllerBase
             await _statisticService.CreateAsync(statistic, cancellationToken);
             return StatusCode(201);
         }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
         catch (Exception e)
         {
             _logger.Error("{Message}", e.Message);
@@ -89,7 +94,7 @@ public class StatisticController : ControllerBase
     /// <response code="404">Объект статистики не найден.</response>
     /// <response code="500">Ошибка сервера.</response>
     /// <param name="statisticForUpdatingRequest">ДТО для обновления.</param>
-    /// <param name="Id">Id статистики.</param>
+    /// <param name="id">Id статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает IActionResult в ответ на запрос.</returns>
     [HttpPut("{id}")]
@@ -105,12 +110,16 @@ public class StatisticController : ControllerBase
             var statisticEntity = await _statisticService.GetByIdAsync(id, cancellationToken);
             var statistic = statisticForUpdatingRequest.Adapt<Statistic>();
             await _statisticService.UpdateAsync(statistic, cancellationToken);
-            return StatusCode(200);
+            return Ok();
         }
-        catch (StatisticNotFoundException)
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (StatisticNotFoundException e)
         {
             _logger.Error("Статистика с Id {@Id} не найдена", id);
-            return StatusCode(404);
+            return NotFound(e.Message);
         }
         catch (Exception e)
         {

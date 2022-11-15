@@ -19,19 +19,16 @@ public class Statistic
     /// <summary>
     /// Имя пользователя.
     /// </summary>
-    [StringLength(100)]
     public string? UserName { get; set; }
 
     /// <summary>
     /// Версия приложения.
     /// </summary>
-    [StringLength(30)]
     public string? ClientVersion { get; set; }
 
     /// <summary>
     /// Операционная система.
     /// </summary>
-    [StringLength(30)]
     public string? Os { get; set; }
 
     /// <summary>

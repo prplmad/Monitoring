@@ -7,7 +7,7 @@ namespace Persistence.Extensions.DependencyInjection;
 /// <summary>
 /// Класс, содержащий метод расширения для работы с данными.
 /// </summary>
-public static class DependencyInjectionExtencions
+public static class Extensions
 {
     /// <summary>
     /// Добавление сервисов IConnectionService, DatabaseCreator.

@@ -1,4 +1,7 @@
+using Domain.Entities;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using Persistence.Repositories;
 using Presentation;
 using Services;
@@ -24,6 +27,7 @@ builder.Services.ConfigureCors(myAllowSpecificOrigins);
 // Add services to the container.
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
+builder.Services.AddValidatorsFromAssemblyContaining<StatisticValidator>();
 builder.Services.ConfigureFluentMigrator(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();

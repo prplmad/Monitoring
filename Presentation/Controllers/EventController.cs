@@ -1,5 +1,7 @@
 ﻿using Contracts;
 using Domain.Entities;
+using Domain.Exceptions;
+using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -72,6 +74,10 @@ public class EventController : ControllerBase
             var eventForCreation = eventForCreationRequest.Adapt<Event>();
             await _eventService.CreateAsync(eventForCreation, cancellationToken);
             return StatusCode(201);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
         }
         catch (Exception e)
         {
