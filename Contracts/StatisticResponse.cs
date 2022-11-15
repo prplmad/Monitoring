@@ -1,4 +1,6 @@
-﻿namespace Contracts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts;
 
 /// <summary>
 /// Dto статистики.
@@ -8,6 +10,7 @@ public class StatisticResponse
     /// <summary>
     /// Идентификатор статистики.
     /// </summary>
+    [Required(ErrorMessage = "Id is required")]
     public int Id { get; set; }
 
     /// <summary>
@@ -28,5 +31,6 @@ public class StatisticResponse
     /// <summary>
     /// Дата обновления статистики.
     /// </summary>
+    [Required(ErrorMessage = "UpdateDate is required")]
     public DateTime UpdateDate { get; set; }
 }
