@@ -3,6 +3,7 @@ import { HttpClient} from '@angular/common/http';
 import { API_BASE_URL } from './app.module'
 import {Observable} from "rxjs";
 import {Statistic} from "./models/statistic";
+import {Event} from "./models/event"
 
 @Injectable()
 export class DataService {
@@ -15,5 +16,10 @@ export class DataService {
   getStatistics() : Observable<Statistic[]>
   {
     return this.http.get<Statistic[]>(this.apiBaseUrl + '/api/Statistic/GetAll');
+  }
+
+  getEventsByStatisticId(Id:number) : Observable<Event[]>
+  {
+    return this.http.get<Event[]>(this.apiBaseUrl + '/api/Statistic/GetEventsByStatisticId?statisticId=${Id}');
   }
 }
