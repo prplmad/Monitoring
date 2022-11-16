@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 /// <summary>
 /// Содержит методы для операций с событиями в репозитории.

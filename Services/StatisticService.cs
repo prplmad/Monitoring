@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using FluentValidation;
 using FluentValidation.Results;
 using Serilog;

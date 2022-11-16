@@ -1,5 +1,6 @@
 using Domain.Entities;
-using Domain.Repositories;
+using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
 using Domain.Validators;
 using FluentValidation;
 using Persistence.Repositories;

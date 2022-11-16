@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Persistence.Connection;
 using Persistence.Migrations;
+using Persistence.UoW;
 
 namespace Persistence.Extensions.DependencyInjection;
 
@@ -20,6 +22,7 @@ public static class Extensions
 
         return services
             .AddSingleton<IConnectionFactory, ConnectionFactory>()
+            .AddScoped<IUnitOfWork, UnitOfWork>()
             .AddSingleton<DatabaseCreator>();
     }
 }

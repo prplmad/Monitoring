@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Domain.Entities;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using Persistence.Connection;
 
 namespace Persistence.Repositories;

@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using Persistence.Connection;
 using Dapper;
 using Npgsql;

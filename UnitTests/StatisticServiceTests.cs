@@ -1,7 +1,7 @@
 using Domain.Entities;
 using Domain.Exceptions;
 using Moq;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 using FluentValidation;
 using FluentValidation.Results;
 using Serilog;
