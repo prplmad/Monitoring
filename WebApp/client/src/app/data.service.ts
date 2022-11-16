@@ -20,6 +20,6 @@ export class DataService {
 
   getEventsByStatisticId(Id:number) : Observable<Event[]>
   {
-    return this.http.get<Event[]>(this.apiBaseUrl + '/api/Statistic/GetEventsByStatisticId?statisticId=${Id}');
+    return this.http.get<Event[]>(this.apiBaseUrl + '/api/Event/GetEventsByStatisticId?statisticId=' + Id);
   }
 }

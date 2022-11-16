@@ -1,5 +1,5 @@
 export interface Statistic {
-  externalId?: number,
+  id?: number,
   userName?: string,
   clientVersion?: string,
   os?: string,
