@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Npgsql;
 
 namespace Persistence.Connection;
 
@@ -7,9 +8,5 @@ namespace Persistence.Connection;
 /// </summary>
 public interface IConnectionFactory
 {
-    /// <summary>
-    /// Создание подключения.
-    /// </summary>
-    /// <returns>IDbConnection.</returns>
-    public IDbConnection CreateConnection();
+    IDbConnection CreateConnection();
 }

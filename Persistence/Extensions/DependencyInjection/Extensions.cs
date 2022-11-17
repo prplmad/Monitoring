@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using System.Data;
+using Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Connection;
 using Persistence.Migrations;
@@ -22,7 +23,13 @@ public static class Extensions
 
         return services
             .AddSingleton<IConnectionFactory, ConnectionFactory>()
+            .AddSingleton<DatabaseCreator>()
             .AddScoped<IUnitOfWork, UnitOfWork>()
-            .AddSingleton<DatabaseCreator>();
+            .AddScoped<IDbTransaction>(s =>
+            {
+                IDbConnection connection = s.GetRequiredService<IConnectionFactory>().CreateConnection();
+                connection.Open();
+                return connection.BeginTransaction();
+            });
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using Dapper;
+using System.Transactions;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -10,6 +10,7 @@ public class ConnectionFactory : IConnectionFactory
 {
     private readonly IConfiguration _configuration;
     private readonly string _connectionString;
+    private IDbConnection _dbConnection;
 
     /// <summary>
     /// Инициализация строки подключения и конфигурации.
@@ -24,6 +25,7 @@ public class ConnectionFactory : IConnectionFactory
     /// <inheritdoc />
     public IDbConnection CreateConnection()
     {
-        return new NpgsqlConnection(_connectionString);
+        _dbConnection = new NpgsqlConnection(_connectionString);
+        return _dbConnection;
     }
 }

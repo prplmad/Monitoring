@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using System.Data;
+using System.Transactions;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Persistence.Connection;
 using Dapper;
@@ -10,14 +12,16 @@ namespace Persistence.Repositories;
 public class EventRepository : IEventRepository
 {
     private readonly IConnectionFactory _connectionFactory;
+    private readonly IDbTransaction _dbTransaction;
 
     /// <summary>
     /// Инициализация connectionFactory.
     /// </summary>
     /// <param name="connectionFactory">Соединение с БД.</param>
-    public EventRepository(IConnectionFactory connectionFactory)
+    public EventRepository(IConnectionFactory connectionFactory, IDbTransaction dbTransaction)
     {
         _connectionFactory = connectionFactory;
+        _dbTransaction = dbTransaction;
     }
 
     /// <inheritdoc />
@@ -26,7 +30,7 @@ public class EventRepository : IEventRepository
         var query = $"SELECT * FROM event where statistic_id = {statisticId}";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            var events = await connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken));
+            var events = await connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_dbTransaction));
             return events.ToList();
         }
     }
@@ -38,7 +42,7 @@ public class EventRepository : IEventRepository
 
         using (var connection = _connectionFactory.CreateConnection())
         {
-            await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken));
+            await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_dbTransaction));
         }
     }
 }

@@ -1,56 +1,41 @@
-﻿using Domain.Interfaces;
+﻿using System.Data;
+using Domain.Interfaces;
 using System.Data.Common;
+using Domain.Interfaces.Repositories;
+using Persistence.Connection;
 
 namespace Persistence.UoW;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly DbConnection _connection;
-    private DbTransaction _transaction;
+    public IStatisticRepository StatisticRepository { get; }
+    public IEventRepository EventRepository { get; }
+    private readonly IDbTransaction _dbTransaction;
 
-    public UnitOfWork(DbConnection connection)
+    public UnitOfWork(IStatisticRepository statisticRepository, IEventRepository eventRepository, IDbTransaction dbTransaction)
     {
-        _connection = connection;
-    }
-    public DbConnection Connection => _connection;
-
-    public DbTransaction Transaction => _transaction;
-
-    public void Begin()
-    {
-        _transaction = _connection.BeginTransaction();
-    }
-
-    public async Task BeginAsync()
-    {
-        _transaction = await _connection.BeginTransactionAsync();
+        StatisticRepository = statisticRepository;
+        EventRepository = eventRepository;
+        _dbTransaction = dbTransaction;
     }
 
     public void Commit()
     {
-        _transaction.Commit();
-    }
-
-    public async Task CommitAsync()
-    {
-        await _transaction.CommitAsync();
+        try
+        {
+            _dbTransaction.Commit();
+            _dbTransaction.Connection.BeginTransaction();
+        }
+        catch (Exception ex)
+        {
+            _dbTransaction.Rollback();
+        }
     }
 
     public void Dispose()
     {
-        if (_transaction != null)
-            _transaction.Dispose();
-
-        _transaction = null;
-    }
-
-    public void Rollback()
-    {
-        _transaction.Rollback();
-    }
-
-    public async Task RollbackAsync()
-    {
-        await _transaction.RollbackAsync();
+        _dbTransaction.Connection?.Close();
+        _dbTransaction.Connection?.Dispose();
+        _dbTransaction.Dispose();
     }
 }

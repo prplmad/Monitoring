@@ -1,12 +1,12 @@
-﻿namespace Domain.Interfaces;
+﻿using Domain.Interfaces.Repositories;
+
+namespace Domain.Interfaces;
 
 public interface IUnitOfWork
 {
-    void Begin();
-    Task BeginAsync();
+    IStatisticRepository StatisticRepository { get; }
+    IEventRepository EventRepository { get; }
     void Commit();
-    Task CommitAsync();
+
     void Dispose();
-    void Rollback();
-    Task RollbackAsync();
 }
