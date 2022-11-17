@@ -1,6 +1,6 @@
 ﻿export interface Event {
-  Id?: number,
-  Name?: string,
-  StatisticId?: number,
-  Date?: Date
+  id?: number,
+  name?: string,
+  statisticId?: number,
+  date?: Date
 }
