@@ -43,6 +43,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         Connection.Close();
         Connection.Dispose();
-        Transaction.Dispose();
+        if (Transaction != null)
+        {
+            Transaction.Dispose();
+        }
     }
 }
