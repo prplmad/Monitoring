@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
 using FluentValidation;
 using FluentValidation.Results;
 using Serilog;
@@ -23,6 +22,7 @@ public class StatisticService : IStatisticService
     /// <param name="statisticRepository">Подключение репозитория.</param>
     /// <param name="logger">Подключение логгера.</param>
     /// <param name="validator">Валидатор статистики.</param>
+    /// <param name="unitOfWork">Подключение UnitOfWork.</param>
     public StatisticService(ILogger logger, IValidator<Statistic> validator, IUnitOfWork unitOfWork)
     {
         _logger = logger;

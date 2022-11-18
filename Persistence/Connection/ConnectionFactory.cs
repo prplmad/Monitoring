@@ -24,7 +24,10 @@ public class ConnectionFactory : IConnectionFactory
         _connectionString = _configuration.GetConnectionString("MyDb");
     }
 
+    /// <inheritdoc />
     public DbConnection Connection => _dbConnection;
+
+    /// <inheritdoc />
     public DbTransaction Transaction => _dbTransaction;
 
     /// <inheritdoc />
@@ -34,6 +37,7 @@ public class ConnectionFactory : IConnectionFactory
         return _dbConnection;
     }
 
+    /// <inheritdoc />
     public async Task<DbTransaction> CreateTransactionAsync()
     {
         await Connection.OpenAsync();

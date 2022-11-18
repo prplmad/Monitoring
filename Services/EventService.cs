@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
 using FluentValidation;
 using FluentValidation.Results;
 using Services.Abstractions;
@@ -20,6 +19,7 @@ public class EventService : IEventService
     /// </summary>
     /// <param name="logger">Подключение логирования.</param>
     /// <param name="eventRepository">Подключение репозитория.</param>
+    /// <param name="unitOfWork">Подключение UnitOfWork.</param>
     /// <param name="validator">Валидатор Event.</param>
     public EventService(ILogger logger, IUnitOfWork unitOfWork, IValidator<Event> validator)
     {

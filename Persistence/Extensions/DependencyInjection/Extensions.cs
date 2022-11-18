@@ -1,6 +1,4 @@
-﻿using System.Data;
-using System.Data.Common;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Connection;
 using Persistence.Migrations;

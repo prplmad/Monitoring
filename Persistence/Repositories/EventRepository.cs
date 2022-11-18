@@ -12,7 +12,6 @@ namespace Persistence.Repositories;
 public class EventRepository : IEventRepository
 {
     private readonly IConnectionFactory _connectionFactory;
-    private readonly IDbTransaction _dbTransaction;
 
     /// <summary>
     /// Инициализация connectionFactory.
@@ -29,7 +28,7 @@ public class EventRepository : IEventRepository
         var query = $"SELECT * FROM event where statistic_id = {statisticId}";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            var events = await connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_dbTransaction));
+            var events = await connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return events.ToList();
         }
     }
@@ -39,6 +38,6 @@ public class EventRepository : IEventRepository
     {
         var query = "INSERT INTO event (statistic_id ,name, date) VALUES (@StatisticId, @Name, @Date)";
         var connection = _connectionFactory.CreateConnection();
-        await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_dbTransaction));
+        await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:await _connectionFactory.CreateTransactionAsync()));
     }
 }
