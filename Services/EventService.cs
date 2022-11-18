@@ -45,5 +45,6 @@ public class EventService : IEventService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
+        await _unitOfWork.CommitAsync();
     }
 }

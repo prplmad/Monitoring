@@ -38,10 +38,7 @@ public class EventRepository : IEventRepository
     public async Task CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
     {
         var query = "INSERT INTO event (statistic_id ,name, date) VALUES (@StatisticId, @Name, @Date)";
-
-        using (var connection = _connectionFactory.CreateConnection())
-        {
-            await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_dbTransaction));
-        }
+        var connection = _connectionFactory.CreateConnection();
+        await connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_dbTransaction));
     }
 }

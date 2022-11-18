@@ -53,7 +53,7 @@ public class StatisticService : IStatisticService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
-        _unitOfWork.CommitAsync();
+        await _unitOfWork.CommitAsync();
     }
 
     /// <inheritdoc />

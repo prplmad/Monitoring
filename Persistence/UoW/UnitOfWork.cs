@@ -1,12 +1,13 @@
 ﻿using System.Data;
 using Domain.Interfaces;
 using System.Data.Common;
+using System.Transactions;
 using Domain.Interfaces.Repositories;
 using Persistence.Connection;
 
 namespace Persistence.UoW;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
     public IStatisticRepository StatisticRepository { get; }
     public IEventRepository EventRepository { get; }
@@ -28,10 +29,20 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             Transaction.CommitAsync();
+            Dispose();
         }
         catch (Exception ex)
         {
             Transaction.RollbackAsync();
+            Dispose();
+            throw new TransactionException(ex.Message);
         }
+    }
+
+    public void Dispose()
+    {
+        Connection.Close();
+        Connection.Dispose();
+        Transaction.Dispose();
     }
 }
