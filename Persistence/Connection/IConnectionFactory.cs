@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.Common;
 using Npgsql;
 
 namespace Persistence.Connection;
@@ -9,4 +10,7 @@ namespace Persistence.Connection;
 public interface IConnectionFactory
 {
     IDbConnection CreateConnection();
+    Task<DbTransaction> CreateTransactionAsync();
+    DbConnection Connection { get; }
+    DbTransaction Transaction { get; }
 }

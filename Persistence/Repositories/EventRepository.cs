@@ -18,10 +18,9 @@ public class EventRepository : IEventRepository
     /// Инициализация connectionFactory.
     /// </summary>
     /// <param name="connectionFactory">Соединение с БД.</param>
-    public EventRepository(IConnectionFactory connectionFactory, IDbTransaction dbTransaction)
+    public EventRepository(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
-        _dbTransaction = dbTransaction;
     }
 
     /// <inheritdoc />

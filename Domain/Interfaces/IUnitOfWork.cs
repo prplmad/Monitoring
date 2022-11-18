@@ -1,12 +1,11 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using System.Data;
+using Domain.Interfaces.Repositories;
 
 namespace Domain.Interfaces;
 
 public interface IUnitOfWork
 {
-    IStatisticRepository StatisticRepository { get; }
-    IEventRepository EventRepository { get; }
-    void Commit();
-
-    void Dispose();
+    public IStatisticRepository StatisticRepository { get; }
+    public IEventRepository EventRepository { get; }
+    Task CommitAsync();
 }

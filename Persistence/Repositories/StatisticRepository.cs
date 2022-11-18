@@ -10,16 +10,14 @@ namespace Persistence.Repositories;
 public class StatisticRepository : IStatisticRepository
 {
     private readonly IConnectionFactory _connectionFactory;
-    private readonly IDbTransaction _dbTransaction;
 
     /// <summary>
     /// Инициализация connectionFactory.
     /// </summary>
     /// <param name="connectionFactory">Соединение с БД.</param>
-    public StatisticRepository(IConnectionFactory connectionFactory, IDbTransaction dbTransaction)
+    public StatisticRepository(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
-        _dbTransaction = dbTransaction;
     }
 
     /// <inheritdoc />
@@ -28,7 +26,7 @@ public class StatisticRepository : IStatisticRepository
         var query = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW())";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: _dbTransaction));
+            await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: await _connectionFactory.CreateTransactionAsync()));
         }
     }
 
@@ -38,7 +36,7 @@ public class StatisticRepository : IStatisticRepository
         var query = "UPDATE statistic SET username = @UserName, client_version = @ClientVersion, os = @Os, update_date = NOW() WHERE external_id = @ExternalId";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction:_dbTransaction));
+            await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: await _connectionFactory.CreateTransactionAsync()));
         }
     }
 
@@ -48,7 +46,7 @@ public class StatisticRepository : IStatisticRepository
         var query = "SELECT * FROM statistic";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            var statistics = await connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_dbTransaction));
+            var statistics = await connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return statistics.ToList();
         }
     }
@@ -59,7 +57,7 @@ public class StatisticRepository : IStatisticRepository
         var query = $"SELECT * FROM statistic WHERE id = {id}";
         using (var connection = _connectionFactory.CreateConnection())
         {
-            var statistic = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_dbTransaction));
+            var statistic = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return statistic;
         }
     }

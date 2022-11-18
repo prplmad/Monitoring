@@ -6,36 +6,32 @@ using Persistence.Connection;
 
 namespace Persistence.UoW;
 
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork : IUnitOfWork
 {
     public IStatisticRepository StatisticRepository { get; }
     public IEventRepository EventRepository { get; }
-    private readonly IDbTransaction _dbTransaction;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public UnitOfWork(IStatisticRepository statisticRepository, IEventRepository eventRepository, IDbTransaction dbTransaction)
+    public UnitOfWork(IStatisticRepository statisticRepository, IEventRepository eventRepository, IConnectionFactory connectionFactory)
     {
         StatisticRepository = statisticRepository;
         EventRepository = eventRepository;
-        _dbTransaction = dbTransaction;
+        _connectionFactory = connectionFactory;
     }
 
-    public void Commit()
+    public DbTransaction Transaction => _connectionFactory.Transaction;
+
+    public DbConnection Connection => _connectionFactory.Connection;
+
+    public async Task CommitAsync()
     {
         try
         {
-            _dbTransaction.Commit();
-            _dbTransaction.Connection.BeginTransaction();
+            Transaction.CommitAsync();
         }
         catch (Exception ex)
         {
-            _dbTransaction.Rollback();
+            Transaction.RollbackAsync();
         }
-    }
-
-    public void Dispose()
-    {
-        _dbTransaction.Connection?.Close();
-        _dbTransaction.Connection?.Dispose();
-        _dbTransaction.Dispose();
     }
 }

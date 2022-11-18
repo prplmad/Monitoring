@@ -40,7 +40,7 @@ public class StatisticService : IStatisticService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
-        _unitOfWork.Commit();
+        await _unitOfWork.CommitAsync();
     }
 
     /// <inheritdoc />
@@ -53,7 +53,7 @@ public class StatisticService : IStatisticService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
-        _unitOfWork.Commit();
+        _unitOfWork.CommitAsync();
     }
 
     /// <inheritdoc />
