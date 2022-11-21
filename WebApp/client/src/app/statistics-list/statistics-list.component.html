@@ -1,20 +1,52 @@
-<h1>Статистика</h1>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <td>Имя узла</td>
-      <td>Дата обновления статистики</td>
-      <td>Версия Client</td>
-      <td>Тип устройства</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let statistic of statistics">
-      <td>{{ statistic.userName }}</td>
-      <td>{{ statistic.updateDate }}</td>
-      <td>{{ statistic.clientVersion }}</td>
-      <td>{{ statistic.os }}</td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <table mat-table [dataSource]="statistics" class="mat-elevation-z8">
+    <caption>Список узлов</caption>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let statistics"> {{statistics.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef> UserName </th>
+      <td mat-cell *matCellDef="let statistics"> {{statistics.userName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updateDate">
+      <th mat-header-cell *matHeaderCellDef> Update Date </th>
+      <td mat-cell *matCellDef="let statistics"> {{statistics.updateDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientVersion">
+      <th mat-header-cell *matHeaderCellDef> Client Version </th>
+      <td mat-cell *matCellDef="let statistics"> {{statistics.clientVersion}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="os">
+      <th mat-header-cell *matHeaderCellDef> Os </th>
+      <td mat-cell *matCellDef="let statistics"> {{statistics.os}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row (click)="getRecord(row.id)"
+     *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<div>
+  <table mat-table [dataSource]="events" class="mat-elevation-z8">
+    <caption>Список событий</caption>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let events"> {{events.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let events"> {{events.date}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsForEvents"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsForEvents;"></tr>
+  </table>
+</div>
 
