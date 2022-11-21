@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Data.Common;
-using System.Transactions;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -11,8 +9,7 @@ public class ConnectionFactory : IConnectionFactory
 {
     private readonly IConfiguration _configuration;
     private readonly string _connectionString;
-    private DbConnection _dbConnection;
-    private DbTransaction _dbTransaction;
+    private IDbConnection _dbConnection;
 
     /// <summary>
     /// Инициализация строки подключения и конфигурации.
@@ -25,23 +22,9 @@ public class ConnectionFactory : IConnectionFactory
     }
 
     /// <inheritdoc />
-    public DbConnection Connection => _dbConnection;
-
-    /// <inheritdoc />
-    public DbTransaction Transaction => _dbTransaction;
-
-    /// <inheritdoc />
     public IDbConnection CreateConnection()
     {
         _dbConnection = new NpgsqlConnection(_connectionString);
         return _dbConnection;
-    }
-
-    /// <inheritdoc />
-    public async Task<DbTransaction> CreateTransactionAsync()
-    {
-        await Connection.OpenAsync();
-        _dbTransaction = await Connection.BeginTransactionAsync();
-        return _dbTransaction;
     }
 }

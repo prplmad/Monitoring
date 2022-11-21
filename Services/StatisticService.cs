@@ -19,7 +19,6 @@ public class StatisticService : IStatisticService
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
-    /// <param name="statisticRepository">Подключение репозитория.</param>
     /// <param name="logger">Подключение логгера.</param>
     /// <param name="validator">Валидатор статистики.</param>
     /// <param name="unitOfWork">Подключение UnitOfWork.</param>
@@ -40,7 +39,7 @@ public class StatisticService : IStatisticService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
-        await _unitOfWork.CommitAsync();
+        _unitOfWork.Commit();
     }
 
     /// <inheritdoc />
@@ -53,7 +52,7 @@ public class StatisticService : IStatisticService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
-        await _unitOfWork.CommitAsync();
+        _unitOfWork.Commit();
     }
 
     /// <inheritdoc />

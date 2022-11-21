@@ -39,5 +39,6 @@ public class StatisticInMemoryRepository : IStatisticRepository
         return sortedStatistics;
     }
 
+    /// <inheritdoc />
     public Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

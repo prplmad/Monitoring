@@ -1,9 +1,5 @@
-using Domain.Entities;
-using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
 using Domain.Validators;
 using FluentValidation;
-using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
@@ -37,11 +33,7 @@ builder.Services
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
-    .AddScoped<IStatisticRepository, StatisticRepository>();
-builder.Services
     .AddScoped<IEventService, EventService>();
-builder.Services
-    .AddScoped<IEventRepository, EventRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 

@@ -1,8 +1,10 @@
-﻿using Domain.Interfaces;
-using System.Data.Common;
+﻿using System.Data;
+using Domain.Interfaces;
 using System.Transactions;
 using Domain.Interfaces.Repositories;
 using Persistence.Connection;
+using Persistence.Repositories;
+using Serilog;
 
 namespace Persistence.UoW;
 
@@ -11,54 +13,56 @@ namespace Persistence.UoW;
 /// </summary>
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
+    protected bool disposed;
+    private readonly ILogger _logger;
     private readonly IConnectionFactory _connectionFactory;
+    private readonly IDbConnection _connection;
+    private readonly IDbTransaction _transaction;
 
     /// <summary>
-    /// Получение репозиториев и connectionFactory.
+    /// Инициализация подключения и начало транзакции.
     /// </summary>
-    /// <param name="statisticRepository">Репозиторий со статистикой.</param>
-    /// <param name="eventRepository">Репозиторий с событиями.</param>
     /// <param name="connectionFactory">Создает соединения и транзакции.</param>
-    public UnitOfWork(IStatisticRepository statisticRepository, IEventRepository eventRepository, IConnectionFactory connectionFactory)
+    /// <param name="logger">Подключение логгера.</param>
+    public UnitOfWork(IConnectionFactory connectionFactory, ILogger logger)
     {
-        StatisticRepository = statisticRepository;
-        EventRepository = eventRepository;
         _connectionFactory = connectionFactory;
+        _logger = logger;
+
+        _connection = _connectionFactory.CreateConnection();
+        if (_connection == null)
+        {
+            _logger.Error("Ошибка при создании подключения к базе данных");
+            throw new Exception("Ошибка при создании подключения к базе данных");
+        }
+
+        if (_connection.State != ConnectionState.Open)
+        {
+            _connection.Open();
+            _transaction = _connection.BeginTransaction();
+        }
     }
 
     /// <inheritdoc />
-    public IStatisticRepository StatisticRepository { get; }
+    public IStatisticRepository StatisticRepository { get => new StatisticRepository(_connection, _transaction); }
 
     /// <inheritdoc />
-    public IEventRepository EventRepository { get; }
-
-
-    /// <summary>
-    /// Транзакция.
-    /// </summary>
-    public DbTransaction Transaction => _connectionFactory.Transaction;
-
-    /// <summary>
-    /// Подключение.
-    /// </summary>
-    public DbConnection Connection => _connectionFactory.Connection;
+    public IEventRepository EventRepository { get => new EventRepository(_connection, _transaction); }
 
     /// <summary>
     /// Сохранение в БД.
     /// </summary>
     /// <exception cref="TransactionException">Ошибка при сохранении.</exception>
-    /// <returns>Task.</returns>
-    public async Task CommitAsync()
+    public void Commit()
     {
         try
         {
-            await Transaction.CommitAsync();
-            Dispose();
+            _transaction.Commit();
         }
         catch (Exception ex)
         {
-            await Transaction.RollbackAsync();
-            Dispose();
+            _logger.Error("{Message}", ex.Message);
+            _transaction.Rollback();
             throw new TransactionException(ex.Message);
         }
     }
@@ -68,11 +72,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     /// </summary>
     public void Dispose()
     {
-        Connection.Close();
-        Connection.Dispose();
-        if (Transaction != null)
+        if (!disposed)
         {
-            Transaction.Dispose();
+            _transaction.Dispose();
+            _connection.Dispose();
+            disposed = true;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Contracts;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Services.Abstractions;
 

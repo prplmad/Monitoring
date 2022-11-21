@@ -2,47 +2,46 @@
 using Dapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Persistence.Connection;
 
 namespace Persistence.Repositories;
 
 /// <inheritdoc />
 public class StatisticRepository : IStatisticRepository
 {
-    private readonly IConnectionFactory _connectionFactory;
-
+    private readonly IDbTransaction _transaction;
+    private readonly IDbConnection _connection;
     /// <summary>
     /// Инициализация connectionFactory.
     /// </summary>
-    /// <param name="connectionFactory">Соединение с БД.</param>
-    public StatisticRepository(IConnectionFactory connectionFactory)
+    /// <param name="connection">Соединение.</param>>
+    /// <param name="transaction">Транзакция.</param>>
+    public StatisticRepository(IDbConnection connection, IDbTransaction transaction)
     {
-        _connectionFactory = connectionFactory;
+        _connection = connection;
+        _transaction = transaction;
     }
 
     /// <inheritdoc />
     public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken)
     {
         var query = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW())";
-        var connection = _connectionFactory.CreateConnection();
-        await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: await _connectionFactory.CreateTransactionAsync()));
+        await _connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: _transaction));
     }
 
     /// <inheritdoc />
     public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken)
     {
         var query = "UPDATE statistic SET username = @UserName, client_version = @ClientVersion, os = @Os, update_date = NOW() WHERE external_id = @ExternalId";
-        var connection = _connectionFactory.CreateConnection();
-        await connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: await _connectionFactory.CreateTransactionAsync()));
+        await _connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: _transaction));
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken)
     {
         var query = "SELECT * FROM statistic";
-        using (var connection = _connectionFactory.CreateConnection())
+        using (_connection)
         {
-            var statistics = await connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
+            var statistics = await _connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return statistics.ToList();
         }
     }
@@ -51,9 +50,9 @@ public class StatisticRepository : IStatisticRepository
     public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var query = $"SELECT * FROM statistic WHERE id = {id}";
-        using (var connection = _connectionFactory.CreateConnection())
+        using (_connection)
         {
-            var statistic = await connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
+            var statistic = await _connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
             return statistic;
         }
     }

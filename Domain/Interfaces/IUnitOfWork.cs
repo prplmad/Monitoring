@@ -18,6 +18,5 @@ public interface IUnitOfWork
     /// <summary>
     /// Сохранение транзакции.
     /// </summary>
-    /// <returns>Task.</returns>
-    Task CommitAsync();
+    void Commit();
 }

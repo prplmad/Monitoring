@@ -18,7 +18,6 @@ public class EventService : IEventService
     /// Конструктор для подключения сервисов.
     /// </summary>
     /// <param name="logger">Подключение логирования.</param>
-    /// <param name="eventRepository">Подключение репозитория.</param>
     /// <param name="unitOfWork">Подключение UnitOfWork.</param>
     /// <param name="validator">Валидатор Event.</param>
     public EventService(ILogger logger, IUnitOfWork unitOfWork, IValidator<Event> validator)
@@ -45,6 +44,6 @@ public class EventService : IEventService
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
         await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
-        await _unitOfWork.CommitAsync();
+        _unitOfWork.Commit();
     }
 }
