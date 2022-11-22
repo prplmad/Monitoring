@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Interfaces;
 using Moq;
 using Domain.Interfaces.Repositories;
 using FluentValidation;
@@ -16,7 +17,7 @@ namespace UnitTests;
 public class StatisticServiceTests
 {
     private StatisticService _statisticService;
-    private Mock<IStatisticRepository> _statisticRepository;
+    private Mock<IUnitOfWork> _unitOfWork;
     private Mock<ILogger> _logger;
     private Mock<IValidator<Statistic>> _validator;
     private Statistic _statistic;
@@ -26,11 +27,11 @@ public class StatisticServiceTests
     /// </summary>
     public StatisticServiceTests()
     {
-        _statisticRepository = new Mock<IStatisticRepository>();
+        _unitOfWork = new Mock<IUnitOfWork>();
         _logger = new Mock<ILogger>();
         _statistic = new Statistic();
         _validator = new Mock<IValidator<Statistic>>();
-        _statisticService = new StatisticService(_statisticRepository.Object, _logger.Object, _validator.Object);
+        _statisticService = new StatisticService(_logger.Object, _validator.Object, _unitOfWork.Object);
     }
 
     /// <summary>
@@ -38,12 +39,12 @@ public class StatisticServiceTests
     /// </summary>
     /// <returns>Task.</returns>
     [Fact]
-    public async Task UpdateAsync_RecordNotFoundInRepository_ThrowsStatisticNotFoundException()
+    public async Task GetByIdAsync_RecordNotFoundInRepository_ThrowsStatisticNotFoundException()
     {
         // Arrange
-        _statisticRepository.Setup(sr => sr.UpdateAsync(It.IsAny<Statistic>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException());
+        _unitOfWork.Setup(uow => uow.StatisticRepository.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException());
         _validator.Setup((v => v.ValidateAsync(It.IsAny<Statistic>(), It.IsAny<CancellationToken>()))).ReturnsAsync(new ValidationResult());
         // Act, Assert
-        await Assert.ThrowsAsync<StatisticNotFoundException>( async () => await _statisticService.UpdateAsync(_statistic, It.IsAny<CancellationToken>()));
+        await Assert.ThrowsAsync<StatisticNotFoundException>( async () => await _statisticService.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
     }
 }
