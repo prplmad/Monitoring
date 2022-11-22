@@ -1,26 +1,24 @@
 ﻿using System.Net;
+using IntegrationTests.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace IntegrationTests;
 
-public class EventControllerTest
+public class EventControllerTest : IClassFixture<ApiWebApplicationFactory>
 {
-    private WebApplicationFactory<Program> _factory;
+    readonly HttpClient _client;
 
-    public EventControllerTest()
+    public EventControllerTest(ApiWebApplicationFactory application)
     {
-        _factory = new WebApplicationFactory<Program>().WithWebHostBuilder(_ => { });
+        _client = application.CreateClient();
     }
 
     [Fact]
     public async Task GetAllAsync_SendRequest_ShouldReturnOk()
     {
-        //Arrange
-        var httpClient = _factory.CreateClient();
-
         //Act
-        HttpResponseMessage response = await httpClient.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
+        HttpResponseMessage response = await _client.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

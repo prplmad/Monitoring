@@ -30,4 +30,10 @@
       <ProjectReference Include="..\WebApp\WebApp.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="testsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

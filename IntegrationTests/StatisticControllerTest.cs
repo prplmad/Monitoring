@@ -1,27 +1,25 @@
 ﻿using System.Net;
+using IntegrationTests.Extensions;
 using Xunit;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 
 namespace IntegrationTests;
 
-public class StatisticControllerTest
+public class StatisticControllerTest : IClassFixture<ApiWebApplicationFactory>
 {
-    private  WebApplicationFactory<Program> _factory;
+    readonly HttpClient _client;
 
-    public StatisticControllerTest()
+    public StatisticControllerTest(ApiWebApplicationFactory application)
     {
-        _factory = new WebApplicationFactory<Program>().WithWebHostBuilder(_ => { });
+        _client = application.CreateClient();
     }
 
     [Fact]
     public async Task GetAllAsync_SendRequest_ShouldReturnOk()
     {
-        //Arrange
-        var httpClient = _factory.CreateClient();
-
         //Act
-        HttpResponseMessage response = await httpClient.GetAsync("api/Statistic/GetAll");
+        HttpResponseMessage response = await _client.GetAsync("api/Statistic/GetAll");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
