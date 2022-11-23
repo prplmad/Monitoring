@@ -11,7 +11,7 @@ public class EventResponse
     /// Наименования события.
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     /// <summary>
     /// Дата события.

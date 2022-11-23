@@ -19,12 +19,14 @@ public class StatisticInMemoryRepository : IStatisticRepository
     /// <inheritdoc />
     public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
+        await Task.Delay(0);
         _statistic.Add(statistic);
     }
 
     /// <inheritdoc />
     public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
+        await Task.Delay(0);
         Statistic statisticForUpdating = _statistic.First(s => s.ExternalId == statistic.ExternalId);
         statisticForUpdating.Os = statistic.Os;
         statisticForUpdating.ClientVersion = statistic.ClientVersion;
@@ -35,6 +37,7 @@ public class StatisticInMemoryRepository : IStatisticRepository
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
+        await Task.Delay(0);
         IReadOnlyCollection<Statistic> sortedStatistics = _statistic.OrderBy(x => x.UpdateDate).ToList();
         return sortedStatistics;
     }

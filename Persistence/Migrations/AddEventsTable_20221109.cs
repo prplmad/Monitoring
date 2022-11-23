@@ -3,9 +3,13 @@
 
 namespace Persistence.Migrations;
 
+/// <summary>
+/// Миграция 20221109.
+/// </summary>
 [Migration(20221109)]
 public class AddEventsTable_20221109 : Migration
 {
+    /// <inheritdoc/>
     public override void Down()
     {
         Delete.Table("event");

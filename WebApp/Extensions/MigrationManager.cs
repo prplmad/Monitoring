@@ -23,7 +23,7 @@ public static class MigrationManager
             var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             var connectionStringBuilder = new NpgsqlConnectionStringBuilder(configuration.GetConnectionString("MyDb"));
-            string? database = connectionStringBuilder.Database;
+            string database = connectionStringBuilder.Database;
 
             databaseCreatorService.Create(database);
 

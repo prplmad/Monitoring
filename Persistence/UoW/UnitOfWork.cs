@@ -13,11 +13,15 @@ namespace Persistence.UoW;
 /// </summary>
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    protected bool disposed;
+    /// <summary>
+    /// Флаг, показывающий было ли особождение ресурсов.
+    /// </summary>
     private readonly ILogger _logger;
-    private readonly IConnectionFactory _connectionFactory;
+
     private readonly IDbConnection _connection;
     private readonly IDbTransaction _transaction;
+    private bool _disposed;
+
 
     /// <summary>
     /// Инициализация подключения и начало транзакции.
@@ -26,10 +30,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     /// <param name="logger">Подключение логгера.</param>
     public UnitOfWork(IConnectionFactory connectionFactory, ILogger logger)
     {
-        _connectionFactory = connectionFactory;
         _logger = logger;
 
-        _connection = _connectionFactory.CreateConnection();
+        _connection = connectionFactory.CreateConnection();
         if (_connection == null)
         {
             _logger.Error("Ошибка при создании подключения к базе данных");
@@ -72,11 +75,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (!disposed)
+        if (!_disposed)
         {
             _transaction.Dispose();
             _connection.Dispose();
-            disposed = true;
+            _disposed = true;
         }
     }
 }

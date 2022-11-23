@@ -17,9 +17,7 @@ public class StatisticServiceTests
 {
     private StatisticService _statisticService;
     private Mock<IUnitOfWork> _unitOfWork;
-    private Mock<ILogger> _logger;
     private Mock<IValidator<Statistic>> _validator;
-    private Statistic _statistic;
 
     /// <summary>
     /// Конструктор для инициализации объектов, необходимых для тестов сервиса StatisticService.
@@ -27,10 +25,9 @@ public class StatisticServiceTests
     public StatisticServiceTests()
     {
         _unitOfWork = new Mock<IUnitOfWork>();
-        _logger = new Mock<ILogger>();
-        _statistic = new Statistic();
+        var logger = new Mock<ILogger>();
         _validator = new Mock<IValidator<Statistic>>();
-        _statisticService = new StatisticService(_logger.Object, _validator.Object, _unitOfWork.Object);
+        _statisticService = new StatisticService(logger.Object, _validator.Object, _unitOfWork.Object);
     }
 
     /// <summary>

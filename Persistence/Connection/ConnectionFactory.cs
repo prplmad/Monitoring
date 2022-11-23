@@ -7,7 +7,6 @@ namespace Persistence.Connection;
 /// <inheritdoc />
 public class ConnectionFactory : IConnectionFactory
 {
-    private readonly IConfiguration _configuration;
     private readonly string _connectionString;
     private IDbConnection _dbConnection;
 
@@ -17,8 +16,7 @@ public class ConnectionFactory : IConnectionFactory
     /// <param name="configuration">Конфигурация приложения.</param>
     public ConnectionFactory(IConfiguration configuration)
     {
-        _configuration = configuration;
-        _connectionString = _configuration.GetConnectionString("MyDb");
+        _connectionString = configuration.GetConnectionString("MyDb");
     }
 
     /// <inheritdoc />
