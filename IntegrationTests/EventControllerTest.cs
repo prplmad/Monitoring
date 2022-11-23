@@ -9,17 +9,6 @@ namespace IntegrationTests;
 /// </summary>
 public class EventControllerTest : IClassFixture<ApiWebApplicationFactory>
 {
-    private readonly HttpClient _client;
-
-    /// <summary>
-    /// <see cref="EventControllerTest"/>.
-    /// </summary>
-    /// <param name="application"><see cref="ApiWebApplicationFactory"/>.</param>
-    internal EventControllerTest(ApiWebApplicationFactory application)
-    {
-        _client = application.CreateClient();
-    }
-
     /// <summary>
     /// Тест метода GetAllAsync.
     /// </summary>
@@ -28,7 +17,9 @@ public class EventControllerTest : IClassFixture<ApiWebApplicationFactory>
     public async Task GetAllAsync_SendRequest_ShouldReturnOk()
     {
         //Act
-        HttpResponseMessage response = await _client.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
+        var application = new ApiWebApplicationFactory();
+        var client = application.CreateClient();
+        HttpResponseMessage response = await client.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

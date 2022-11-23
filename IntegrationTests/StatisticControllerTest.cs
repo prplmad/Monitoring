@@ -10,17 +10,6 @@ namespace IntegrationTests;
 /// </summary>
 public class StatisticControllerTest : IClassFixture<ApiWebApplicationFactory>
 {
-    private readonly HttpClient _client;
-
-    /// <summary>
-    /// Создает объект HttpClient.
-    /// </summary>
-    /// <param name="application"><see cref="ApiWebApplicationFactory"/>.</param>
-    internal StatisticControllerTest(ApiWebApplicationFactory application)
-    {
-        _client = application.CreateClient();
-    }
-
     /// <summary>
     /// Тест метода GetAllAsync.
     /// </summary>
@@ -29,7 +18,9 @@ public class StatisticControllerTest : IClassFixture<ApiWebApplicationFactory>
     public async Task GetAllAsync_SendRequest_ShouldReturnOk()
     {
         //Act
-        HttpResponseMessage response = await _client.GetAsync("api/Statistic/GetAll");
+        var application = new ApiWebApplicationFactory();
+        var client = application.CreateClient();
+        HttpResponseMessage response = await client.GetAsync("api/Statistic/GetAll");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
