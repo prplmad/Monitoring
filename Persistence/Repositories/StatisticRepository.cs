@@ -39,21 +39,16 @@ public class StatisticRepository : IStatisticRepository
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken)
     {
         var query = "SELECT * FROM statistic";
-        using (_connection)
-        {
-            var statistics = await _connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
-            return statistics.ToList();
-        }
+        var statistics = await _connection.QueryAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_transaction));
+        return statistics.ToList();
+
     }
 
     /// <inheritdoc />
     public async Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var query = $"SELECT * FROM statistic WHERE id = {id}";
-        using (_connection)
-        {
-            var statistic = await _connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken));
-            return statistic;
-        }
+        var statistic = await _connection.QuerySingleAsync<Statistic>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_transaction));
+        return statistic;
     }
 }

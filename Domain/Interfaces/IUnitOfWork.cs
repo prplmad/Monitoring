@@ -5,7 +5,7 @@ namespace Domain.Interfaces;
 /// <summary>
 /// Содержит метод для коммита транзакции.
 /// </summary>
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     /// <summary>
     /// Свойство для получения репозитория статистики.

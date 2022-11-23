@@ -15,7 +15,7 @@ public class EventControllerTest : IClassFixture<ApiWebApplicationFactory>
     /// <see cref="EventControllerTest"/>.
     /// </summary>
     /// <param name="application"><see cref="ApiWebApplicationFactory"/>.</param>
-    public EventControllerTest(ApiWebApplicationFactory application)
+    internal EventControllerTest(ApiWebApplicationFactory application)
     {
         _client = application.CreateClient();
     }

@@ -7,7 +7,7 @@ namespace IntegrationTests.Extensions;
 /// <summary>
 /// Класс для конфигурации сервисов и БД для интеграционных тестов.
 /// </summary>
-public class ApiWebApplicationFactory : WebApplicationFactory<Program>
+internal class ApiWebApplicationFactory : WebApplicationFactory<Program>
 {
     /// <summary>
     /// Конфигурация тестового проекта.

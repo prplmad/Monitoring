@@ -8,8 +8,6 @@ namespace Persistence.Connection;
 public class ConnectionFactory : IConnectionFactory
 {
     private readonly string _connectionString;
-    private IDbConnection _dbConnection;
-
     /// <summary>
     /// Инициализация строки подключения и конфигурации.
     /// </summary>
@@ -22,7 +20,7 @@ public class ConnectionFactory : IConnectionFactory
     /// <inheritdoc />
     public IDbConnection CreateConnection()
     {
-        _dbConnection = new NpgsqlConnection(_connectionString);
-        return _dbConnection;
+        IDbConnection dbConnection = new NpgsqlConnection(_connectionString);
+        return dbConnection;
     }
 }

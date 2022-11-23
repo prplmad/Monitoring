@@ -11,18 +11,14 @@ namespace Persistence.UoW;
 /// <summary>
 /// Содержит метод для коммита транзакции.
 /// </summary>
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork : IUnitOfWork
 {
     /// <summary>
     /// Флаг, показывающий было ли особождение ресурсов.
     /// </summary>
     private readonly ILogger _logger;
-
     private readonly IDbConnection _connection;
     private readonly IDbTransaction _transaction;
-    private bool _disposed;
-
-
     /// <summary>
     /// Инициализация подключения и начало транзакции.
     /// </summary>
@@ -38,12 +34,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             _logger.Error("Ошибка при создании подключения к базе данных");
             throw new Exception("Ошибка при создании подключения к базе данных");
         }
-
-        if (_connection.State != ConnectionState.Open)
-        {
-            _connection.Open();
-            _transaction = _connection.BeginTransaction();
-        }
+        _connection.Open();
+        _transaction = _connection.BeginTransaction();
     }
 
     /// <inheritdoc />
@@ -61,11 +53,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         try
         {
             _transaction.Commit();
+            _connection.Close();
         }
         catch (Exception ex)
         {
             _logger.Error("{Message}", ex.Message);
-            _transaction.Rollback();
             throw new TransactionException(ex.Message);
         }
     }
@@ -75,11 +67,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (!_disposed)
+        if (_connection.State == ConnectionState.Open)
         {
-            _transaction.Dispose();
-            _connection.Dispose();
-            _disposed = true;
+            _transaction.Rollback();
         }
+        _transaction.Dispose();
+        _connection.Dispose();
     }
 }

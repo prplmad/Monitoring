@@ -43,7 +43,10 @@ public class EventService : IEventService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
-        _unitOfWork.Commit();
+        using (_unitOfWork)
+        {
+            await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
+            _unitOfWork.Commit();
+        }
     }
 }

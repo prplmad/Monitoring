@@ -63,9 +63,3 @@ app.MigrateDatabase();
 
 app.Run();
 
-/// <summary>
-/// Для доступа ApiWebApplicationFactory в проекте с интеграционными тестами к Program.
-/// </summary>
-public partial class Program
-{
-}

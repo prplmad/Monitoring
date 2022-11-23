@@ -16,7 +16,7 @@ public class StatisticControllerTest : IClassFixture<ApiWebApplicationFactory>
     /// Создает объект HttpClient.
     /// </summary>
     /// <param name="application"><see cref="ApiWebApplicationFactory"/>.</param>
-    public StatisticControllerTest(ApiWebApplicationFactory application)
+    internal StatisticControllerTest(ApiWebApplicationFactory application)
     {
         _client = application.CreateClient();
     }

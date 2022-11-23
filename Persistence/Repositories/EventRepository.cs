@@ -26,11 +26,8 @@ public class EventRepository : IEventRepository
     public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken = default)
     {
         var query = $"SELECT * FROM event where statistic_id = {statisticId}";
-        using (_connection)
-        {
-            var events = await _connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken));
-            return events.ToList();
-        }
+        var events = await _connection.QueryAsync<Event>(new CommandDefinition(query, cancellationToken: cancellationToken, transaction:_transaction));
+        return events.ToList();
     }
 
     /// <inheritdoc />

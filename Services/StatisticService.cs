@@ -38,8 +38,11 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
-        _unitOfWork.Commit();
+        using (_unitOfWork)
+        {
+            await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
+            _unitOfWork.Commit();
+        }
     }
 
     /// <inheritdoc />
@@ -51,15 +54,22 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
-        _unitOfWork.Commit();
+        using (_unitOfWork)
+        {
+            await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
+            _unitOfWork.Commit();
+        }
+
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var statistics = await _unitOfWork.StatisticRepository.GetAllAsync(cancellationToken);
-        return statistics;
+        using (_unitOfWork)
+        {
+            var statistics = await _unitOfWork.StatisticRepository.GetAllAsync(cancellationToken);
+            return statistics;
+        }
     }
 
     /// <inheritdoc />
@@ -67,8 +77,11 @@ public class StatisticService : IStatisticService
     {
         try
         {
-            var statistic = await _unitOfWork.StatisticRepository.GetByIdAsync(id, cancellationToken);
-            return statistic;
+            using (_unitOfWork)
+            {
+                var statistic = await _unitOfWork.StatisticRepository.GetByIdAsync(id, cancellationToken);
+                return statistic;
+            }
         }
         catch (InvalidOperationException)
         {
