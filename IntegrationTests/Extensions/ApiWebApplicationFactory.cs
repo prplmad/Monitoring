@@ -12,7 +12,7 @@ internal class ApiWebApplicationFactory : WebApplicationFactory<Program>
     /// <summary>
     /// Конфигурация тестового проекта.
     /// </summary>
-    public IConfiguration Configuration { get; private set; }
+    public IConfiguration? Configuration { get; private set; }
 
     /// <inheritdoc/>
     protected override void ConfigureWebHost(IWebHostBuilder builder)

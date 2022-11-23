@@ -21,7 +21,7 @@ public class DatabaseCreator
     /// Создание базы данных.
     /// </summary>
     /// <param name="dbName">Название базы данных.</param>
-    public void Create(string dbName)
+    public void Create(string? dbName)
     {
         var parameters = new { name = dbName };
         var query = "SELECT datname FROM pg_database where datname = @name";
