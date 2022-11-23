@@ -4,9 +4,13 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <CodeAnalysisRuleSet>..\..\..\Analyzer\infotecs.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>..\Analyzer\infotecs.ruleset</CodeAnalysisRuleSet>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.11" />
