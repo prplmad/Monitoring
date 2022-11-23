@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet>..\Analyzer\infotecs.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\infotecs.ruleset</CodeAnalysisRuleSet>
     <SpaRoot>client\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:28983</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
