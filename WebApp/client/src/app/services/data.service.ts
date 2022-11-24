@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { API_BASE_URL } from './app.module'
+import { API_BASE_URL } from '../app.module'
 import {Observable} from "rxjs";
-import {Statistic} from "./models/statistic";
-import {Event} from "./models/event"
+import {Statistic} from "../models/statistic";
+import {Event} from "../models/event"
 
 @Injectable()
 export class DataService {
@@ -15,6 +15,7 @@ export class DataService {
 
   getStatistics() : Observable<Statistic[]>
   {
+    console.log("GETSTATISTICS")
     return this.http.get<Statistic[]>(this.apiBaseUrl + '/api/Statistic/GetAll');
   }
 

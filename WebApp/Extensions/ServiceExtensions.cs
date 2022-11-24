@@ -20,8 +20,11 @@ public static class ServiceExtensions
             options.AddPolicy(name: myAllowSpecificOrigins,
                 policy =>
                 {
-                    policy.WithOrigins("https://localhost:7130",
-                        "https://localhost:28983");
+                    policy.AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin()
+                        .WithOrigins("https://localhost:7130", "https://localhost:28983");
                 });
         });
     }

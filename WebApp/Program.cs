@@ -8,6 +8,7 @@ using Services;
 using Serilog;
 using Services.Abstractions;
 using Persistence.Extensions.DependencyInjection;
+using WebApp;
 using WebApp.Extensions;
 
 
@@ -31,6 +32,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<StatisticValidator>();
 builder.Services.ConfigureFluentMigrator(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
+builder.Services.AddSignalR();
 builder.Services
     .AddPersistence();
 builder.Services
@@ -65,6 +67,8 @@ app.UseCors(myAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapFallbackToFile("index.html");
+
+app.MapHub<StatisticHub>("/statistic");
 
 app.MigrateDatabase();
 

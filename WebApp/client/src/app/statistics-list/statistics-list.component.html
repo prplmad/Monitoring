@@ -1,10 +1,6 @@
 <div>
   <table mat-table [dataSource]="statistics" class="mat-elevation-z8">
     <caption>Список узлов</caption>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let statistics"> {{statistics.id}} </td>
-    </ng-container>
 
     <ng-container matColumnDef="userName">
       <th mat-header-cell *matHeaderCellDef> UserName </th>
@@ -27,7 +23,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row (click)="getRecord(row.id)"
+    <tr mat-row (click)="getEvents(row.id)"
      *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
