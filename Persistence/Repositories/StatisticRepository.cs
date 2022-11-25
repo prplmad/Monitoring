@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Domain.Entities;
 using Domain.Repositories;
-using Microsoft.AspNetCore.SignalR;
 using Persistence.Connection;
 
 namespace Persistence.Repositories;
