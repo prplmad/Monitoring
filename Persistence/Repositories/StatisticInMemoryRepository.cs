@@ -19,19 +19,19 @@ public class StatisticInMemoryRepository : IStatisticRepository
     /// <inheritdoc />
     public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
         _statistic.Add(statistic);
+        await Task.CompletedTask;
     }
 
     /// <inheritdoc />
     public async Task UpdateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
         Statistic statisticForUpdating = _statistic.First(s => s.ExternalId == statistic.ExternalId);
         statisticForUpdating.Os = statistic.Os;
         statisticForUpdating.ClientVersion = statistic.ClientVersion;
         statisticForUpdating.UpdateDate = statistic.UpdateDate;
         statisticForUpdating.UserName = statistic.UserName;
+        await Task.CompletedTask;
     }
 
     /// <inheritdoc />
