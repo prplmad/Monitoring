@@ -5,6 +5,10 @@ import { Event } from '../models/event'
 import { ReplaySubject, takeUntil } from "rxjs";
 import * as signalR from "@microsoft/signalr";
 import { API_BASE_URL } from '../app.module'
+import {MatTableDataSource} from "@angular/material/table";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { interval } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-statistics-list',
@@ -13,10 +17,11 @@ import { API_BASE_URL } from '../app.module'
 })
 
 export class StatisticsListComponent implements OnInit, OnDestroy {
+  currentEventId:number;
+  statisticDataSource: MatTableDataSource<Statistic>;
+  eventDataSource: MatTableDataSource<Event>;
   private apiBaseUrl: string;
   connection: signalR.HubConnection;
-  statistics: Statistic[];
-  events: Event[];
   displayedColumns: string[] = ["userName", "updateDate", "clientVersion", "os"];
   displayedColumnsForEvents: string[] = ["name", "date"];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
@@ -26,25 +31,38 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
   }
 
   getEvents(Id:number) {
-    this.dataService.getEventsByStatisticId(Id).pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.events = data as Event[])
+    this.currentEventId = Id;
+    this.eventDataSource = new MatTableDataSource<Event>; 
+    this.dataService.getEventsByStatisticId(this.currentEventId).pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.eventDataSource.data = data as Event[])
   }
 
   getStatistics()
   {
-    this.dataService.getStatistics().pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.statistics = data as Statistic[])
+    this.statisticDataSource = new MatTableDataSource<Statistic>;
+    this.dataService.getStatistics().pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.statisticDataSource.data = data as Statistic[])
   }
 
   createConnection() : void
   {
     this.connection = new signalR.HubConnectionBuilder()
-    .withUrl(this.apiBaseUrl + '/statistic')
+    .withUrl(this.apiBaseUrl + '/statisticListComponent')
     .build();
 
     this.connection.start()
     .then(() => console.log('Connection started'))
     .catch(err => console.log('Error while starting connection: ' + err))
 
-    this.connection.on("notifycreatestatistic", () => this.getStatistics);
+
+    this.connection.on("notifycreateevent", (data:any) => 
+    {
+      this.getEvents(this.currentEventId);
+    });
+
+    this.connection.on("notifycreatestatistic", (data: Statistic) => 
+    {
+      this.statisticDataSource.data.push(data);
+      this.statisticDataSource.data = [...this.statisticDataSource.data];
+    });
   }
 
   ngOnInit() {
@@ -55,6 +73,6 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.connection?.stop();
     this.destroyed$.next(true);
-    this.destroyed$.complete();
+    this.destroyed$.unsubscribe();
   }
 }

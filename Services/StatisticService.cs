@@ -30,7 +30,7 @@ public class StatisticService : IStatisticService
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
+    public async Task<int> CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
         ValidationResult result = await _validator.ValidateAsync(statistic);
         if (!result.IsValid)
@@ -40,8 +40,9 @@ public class StatisticService : IStatisticService
         }
         using (_unitOfWork)
         {
-            await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
+            var id = await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
             _unitOfWork.Commit();
+            return id;
         }
     }
 

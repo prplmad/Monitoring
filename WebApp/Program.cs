@@ -61,7 +61,7 @@ app.UseAuthorization();
 
 app.MapFallbackToFile("index.html");
 
-app.MapHub<StatisticHub>("/statistic");
+app.MapHub<StatisticListComponentHub>("/statisticListComponent");
 
 app.MigrateDatabase();
 

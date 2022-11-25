@@ -12,5 +12,5 @@ public interface IGenericRepository<T> where T : class
     /// <param name="entity">Создаваемая сущность.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращает Task.</returns>
-    Task CreateAsync(T entity, CancellationToken cancellationToken);
+    Task<int> CreateAsync(T entity, CancellationToken cancellationToken);
 }

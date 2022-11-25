@@ -17,10 +17,10 @@ public class StatisticInMemoryRepository : IStatisticRepository
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
+    public async Task<int> CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
         _statistic.Add(statistic);
-        await Task.CompletedTask;
+        return await Task.FromResult(0);
     }
 
     /// <inheritdoc />
