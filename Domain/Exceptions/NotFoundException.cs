@@ -6,7 +6,7 @@
 public abstract class NotFoundException : Exception
 {
     /// <summary>
-    /// Конструктор с доступом к конструктору класса Exception
+    /// Конструктор с доступом к конструктору класса Exception.
     /// </summary>
     /// <param name="message">Сообщение ошибки.</param>
     protected NotFoundException(string message)

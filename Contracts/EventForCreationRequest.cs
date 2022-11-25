@@ -18,7 +18,7 @@ public class EventForCreationRequest
     /// </summary>
     [StringLength(30, ErrorMessage = "Длина наименования Name должна быть не больше 30 символов")]
     [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     /// <summary>
     /// Дата события.

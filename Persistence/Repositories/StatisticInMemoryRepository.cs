@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Repositories;
+using Domain.Interfaces.Repositories;
 
 namespace Persistence.Repositories;
 
@@ -20,6 +20,7 @@ public class StatisticInMemoryRepository : IStatisticRepository
     public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
         _statistic.Add(statistic);
+        await Task.CompletedTask;
     }
 
     /// <inheritdoc />
@@ -30,14 +31,16 @@ public class StatisticInMemoryRepository : IStatisticRepository
         statisticForUpdating.ClientVersion = statistic.ClientVersion;
         statisticForUpdating.UpdateDate = statistic.UpdateDate;
         statisticForUpdating.UserName = statistic.UserName;
+        await Task.CompletedTask;
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         IReadOnlyCollection<Statistic> sortedStatistics = _statistic.OrderBy(x => x.UpdateDate).ToList();
-        return sortedStatistics;
+        return await Task.FromResult(sortedStatistics);
     }
 
+    /// <inheritdoc />
     public Task<Statistic> GetByIdAsync(int id, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

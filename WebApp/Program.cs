@@ -1,8 +1,5 @@
-using Domain.Entities;
-using Domain.Repositories;
 using Domain.Validators;
 using FluentValidation;
-using Persistence.Repositories;
 using Presentation;
 using Services;
 using Serilog;
@@ -38,11 +35,7 @@ builder.Services
 builder.Services
     .AddScoped<IStatisticService, StatisticService>();
 builder.Services
-    .AddScoped<IStatisticRepository, StatisticRepository>();
-builder.Services
     .AddScoped<IEventService, EventService>();
-builder.Services
-    .AddScoped<IEventRepository, EventRepository>();
 builder.Services
     .AddSingleton(Log.Logger);
 
@@ -73,3 +66,4 @@ app.MapHub<StatisticHub>("/statistic");
 app.MigrateDatabase();
 
 app.Run();
+

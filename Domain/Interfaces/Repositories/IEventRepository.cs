@@ -1,11 +1,11 @@
 ﻿using Domain.Entities;
 
-namespace Domain.Repositories;
+namespace Domain.Interfaces.Repositories;
 
 /// <summary>
 /// Содержит методы для операций с событиями в репозитории.
 /// </summary>
-public interface IEventRepository
+public interface IEventRepository : IGenericRepository<Event>
 {
     /// <summary>
     /// Получение коллекции событий по Id статистики.
@@ -14,13 +14,4 @@ public interface IEventRepository
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Коллекция событий одной статистики.</returns>
     Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Создание события.
-    /// </summary>
-    /// <param name="eventForCreation">Объект события.</param>
-    /// <param name="statisticExternalId">Id статистики в приложении Connect.</param>
-    /// <param name="cancellationToken">Токен для отмены задачи.</param>
-    /// <returns>Возвращает Task.</returns>
-    Task CreateAsync (Event eventForCreation, CancellationToken cancellationToken);
 }

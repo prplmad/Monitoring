@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
-using Domain.Repositories;
+using Domain.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using Serilog;
@@ -13,20 +13,20 @@ namespace Services;
 public class StatisticService : IStatisticService
 {
     private readonly IValidator<Statistic> _validator;
-    private readonly IStatisticRepository _statisticRepository;
     private readonly ILogger _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
-    /// <param name="statisticRepository">Подключение репозитория.</param>
     /// <param name="logger">Подключение логгера.</param>
     /// <param name="validator">Валидатор статистики.</param>
-    public StatisticService(IStatisticRepository statisticRepository, ILogger logger, IValidator<Statistic> validator)
+    /// <param name="unitOfWork">Подключение UnitOfWork.</param>
+    public StatisticService(ILogger logger, IValidator<Statistic> validator, IUnitOfWork unitOfWork)
     {
-        _statisticRepository = statisticRepository;
         _logger = logger;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc />
@@ -38,7 +38,11 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _statisticRepository.CreateAsync(statistic, cancellationToken);
+        using (_unitOfWork)
+        {
+            await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
+            _unitOfWork.Commit();
+        }
     }
 
     /// <inheritdoc />
@@ -50,14 +54,22 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _statisticRepository.UpdateAsync(statistic, cancellationToken);
+        using (_unitOfWork)
+        {
+            await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
+            _unitOfWork.Commit();
+        }
+
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var statistics = await _statisticRepository.GetAllAsync(cancellationToken);
-        return statistics;
+        using (_unitOfWork)
+        {
+            var statistics = await _unitOfWork.StatisticRepository.GetAllAsync(cancellationToken);
+            return statistics;
+        }
     }
 
     /// <inheritdoc />
@@ -65,8 +77,11 @@ public class StatisticService : IStatisticService
     {
         try
         {
-            var statistic = await _statisticRepository.GetByIdAsync(id, cancellationToken);
-            return statistic;
+            using (_unitOfWork)
+            {
+                var statistic = await _unitOfWork.StatisticRepository.GetByIdAsync(id, cancellationToken);
+                return statistic;
+            }
         }
         catch (InvalidOperationException)
         {
