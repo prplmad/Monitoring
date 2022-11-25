@@ -5,7 +5,7 @@ namespace Presentation;
 /// <summary>
 /// SignalR хаб для обработки запросов.
 /// </summary>
-public class StatisticHub : Hub
+public class StatisticListComponentHub : Hub
 {
 
 }
