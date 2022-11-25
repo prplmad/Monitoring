@@ -1,26 +1,25 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Mvc.Testing;
+using IntegrationTests.Extensions;
 using Xunit;
 
 namespace IntegrationTests;
 
-public class EventControllerTest
+/// <summary>
+/// Тесты Event контроллера.
+/// </summary>
+public class EventControllerTest : IClassFixture<ApiWebApplicationFactory>
 {
-    private WebApplicationFactory<Program> _factory;
-
-    public EventControllerTest()
-    {
-        _factory = new WebApplicationFactory<Program>().WithWebHostBuilder(_ => { });
-    }
-
+    /// <summary>
+    /// Тест метода GetAllAsync.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
     [Fact]
     public async Task GetAllAsync_SendRequest_ShouldReturnOk()
     {
-        //Arrange
-        var httpClient = _factory.CreateClient();
-
         //Act
-        HttpResponseMessage response = await httpClient.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
+        var application = new ApiWebApplicationFactory();
+        var client = application.CreateClient();
+        HttpResponseMessage response = await client.GetAsync("api/Event/GetEventsByStatisticId?statisticId=1");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

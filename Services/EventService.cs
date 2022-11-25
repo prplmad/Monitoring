@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Repositories;
+using Domain.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using Services.Abstractions;
@@ -12,25 +12,25 @@ public class EventService : IEventService
 {
     private readonly IValidator<Event> _validator;
     private readonly ILogger _logger;
-    private readonly IEventRepository _eventRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
     /// <param name="logger">Подключение логирования.</param>
-    /// <param name="eventRepository">Подключение репозитория.</param>
+    /// <param name="unitOfWork">Подключение UnitOfWork.</param>
     /// <param name="validator">Валидатор Event.</param>
-    public EventService(ILogger logger, IEventRepository eventRepository, IValidator<Event> validator)
+    public EventService(ILogger logger, IUnitOfWork unitOfWork, IValidator<Event> validator)
     {
         _logger = logger;
-        _eventRepository = eventRepository;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc/>
     public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken)
     {
-        var events = await _eventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
+        var events = await _unitOfWork.EventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
         return events;
     }
 
@@ -43,6 +43,10 @@ public class EventService : IEventService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        await _eventRepository.CreateAsync(eventForCreation, cancellationToken);
+        using (_unitOfWork)
+        {
+            await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
+            _unitOfWork.Commit();
+        }
     }
 }

@@ -107,7 +107,7 @@ public class StatisticController : ControllerBase
         try
         {
             _logger.Debug("Получен запрос на обновление статистики {@StatisticForUpdatingRequest}", statisticForUpdatingRequest);
-            var statisticEntity = await _statisticService.GetByIdAsync(id, cancellationToken);
+            await _statisticService.GetByIdAsync(id, cancellationToken);
             var statistic = statisticForUpdatingRequest.Adapt<Statistic>();
             await _statisticService.UpdateAsync(statistic, cancellationToken);
             return Ok();

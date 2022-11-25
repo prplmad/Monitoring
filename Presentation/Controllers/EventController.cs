@@ -1,6 +1,5 @@
 ﻿using Contracts;
 using Domain.Entities;
-using Domain.Exceptions;
 using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Http;

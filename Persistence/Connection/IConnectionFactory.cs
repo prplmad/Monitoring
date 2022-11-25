@@ -8,8 +8,8 @@ namespace Persistence.Connection;
 public interface IConnectionFactory
 {
     /// <summary>
-    /// Создание подключения.
+    /// Создает подключение к БД.
     /// </summary>
-    /// <returns>IDbConnection.</returns>
-    public IDbConnection CreateConnection();
+    /// <returns><see cref="IDbConnection"/>.</returns>
+    IDbConnection CreateConnection();
 }
