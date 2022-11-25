@@ -30,8 +30,11 @@ public class EventService : IEventService
     /// <inheritdoc/>
     public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken)
     {
-        var events = await _unitOfWork.EventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
-        return events;
+        using (_unitOfWork)
+        {
+            var events = await _unitOfWork.EventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
+            return events;
+        }
     }
 
     /// <inheritdoc/>
