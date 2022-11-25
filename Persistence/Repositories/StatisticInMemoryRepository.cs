@@ -37,9 +37,8 @@ public class StatisticInMemoryRepository : IStatisticRepository
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
         IReadOnlyCollection<Statistic> sortedStatistics = _statistic.OrderBy(x => x.UpdateDate).ToList();
-        return sortedStatistics;
+        return await Task.FromResult(sortedStatistics);
     }
 
     /// <inheritdoc />
