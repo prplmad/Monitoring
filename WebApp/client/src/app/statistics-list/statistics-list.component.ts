@@ -2,13 +2,16 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { DataService } from '../services/data.service';
 import { Statistic } from '../models/statistic'
 import { Event } from '../models/event'
-import { ReplaySubject, takeUntil } from "rxjs";
+import { Observable, of, ReplaySubject, takeUntil } from "rxjs";
 import * as signalR from "@microsoft/signalr";
 import { API_BASE_URL } from '../app.module'
 import {MatTableDataSource} from "@angular/material/table";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { interval } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { map } from 'rxjs';
+import { switchAll } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-statistics-list',
@@ -30,10 +33,17 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
     this.apiBaseUrl = baseUrl;
   }
 
-  getEvents(Id:number) {
+  getEvents(Id:number) : void {
     this.currentEventId = Id;
+    const refreshInterval = timer(0, 5000)
+    const events = this.dataService.getEventsByStatisticId(this.currentEventId)
     this.eventDataSource = new MatTableDataSource<Event>;
-    this.dataService.getEventsByStatisticId(this.currentEventId).pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.eventDataSource.data = data as Event[])
+
+    refreshInterval
+    .pipe(takeUntil(this.destroyed$))
+    .pipe(mergeMap(() => events)
+      ).subscribe((data: any) => this.eventDataSource.data = data as Event[])
+
   }
 
   getStatistics()
