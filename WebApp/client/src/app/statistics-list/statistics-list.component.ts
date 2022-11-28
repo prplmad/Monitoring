@@ -32,7 +32,7 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
 
   getEvents(Id:number) {
     this.currentEventId = Id;
-    this.eventDataSource = new MatTableDataSource<Event>; 
+    this.eventDataSource = new MatTableDataSource<Event>;
     this.dataService.getEventsByStatisticId(this.currentEventId).pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.eventDataSource.data = data as Event[])
   }
 
@@ -53,12 +53,12 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
     .catch(err => console.log('Error while starting connection: ' + err))
 
 
-    this.connection.on("notifycreateevent", (data:any) => 
+    this.connection.on("notifycreateevent", (data:any) =>
     {
       this.getEvents(this.currentEventId);
     });
 
-    this.connection.on("notifycreatestatistic", (data: Statistic) => 
+    this.connection.on("notifycreatestatistic", (data: Statistic) =>
     {
       this.statisticDataSource.data.push(data);
       this.statisticDataSource.data = [...this.statisticDataSource.data];
@@ -74,5 +74,6 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
     this.connection?.stop();
     this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
+    this.destroyed$.complete();
   }
 }

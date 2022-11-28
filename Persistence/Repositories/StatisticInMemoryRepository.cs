@@ -7,6 +7,7 @@ namespace Persistence.Repositories;
 public class StatisticInMemoryRepository : IStatisticRepository
 {
     private readonly List<Statistic> _statistic;
+    private int _id;
 
     /// <summary>
     /// Создание объекта коллекции со статистикой.
@@ -14,13 +15,16 @@ public class StatisticInMemoryRepository : IStatisticRepository
     public StatisticInMemoryRepository()
     {
         _statistic = new List<Statistic>();
+        _id = 1;
     }
 
     /// <inheritdoc />
     public async Task<int> CreateAsync(Statistic statistic, CancellationToken cancellationToken = default)
     {
+        statistic.Id = _id;
         _statistic.Add(statistic);
-        return await Task.FromResult(0);
+        _id++;
+        return await Task.FromResult(statistic.Id);
     }
 
     /// <inheritdoc />

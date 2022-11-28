@@ -30,11 +30,8 @@ public class EventService : IEventService
     /// <inheritdoc/>
     public async Task<IReadOnlyCollection<Event>> GetEventsByStatisticIdAsync(int statisticId, CancellationToken cancellationToken)
     {
-        using (_unitOfWork)
-        {
-            var events = await _unitOfWork.EventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
-            return events;
-        }
+        var events = await _unitOfWork.EventRepository.GetEventsByStatisticIdAsync(statisticId,cancellationToken);
+        return events;
     }
 
     /// <inheritdoc/>
@@ -46,11 +43,8 @@ public class EventService : IEventService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        using (_unitOfWork)
-        {
-            var id =  await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
-            _unitOfWork.Commit();
-            return id;
-        }
+        var id =  await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
+        _unitOfWork.Commit();
+        return id;
     }
 }

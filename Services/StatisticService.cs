@@ -38,12 +38,9 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        using (_unitOfWork)
-        {
-            var id = await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
-            _unitOfWork.Commit();
-            return id;
-        }
+        var id = await _unitOfWork.StatisticRepository.CreateAsync(statistic, cancellationToken);
+        _unitOfWork.Commit();
+        return id;
     }
 
     /// <inheritdoc />
@@ -55,22 +52,15 @@ public class StatisticService : IStatisticService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        using (_unitOfWork)
-        {
-            await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
-            _unitOfWork.Commit();
-        }
-
+        await _unitOfWork.StatisticRepository.UpdateAsync(statistic, cancellationToken);
+        _unitOfWork.Commit();
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<Statistic>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        using (_unitOfWork)
-        {
-            var statistics = await _unitOfWork.StatisticRepository.GetAllAsync(cancellationToken);
-            return statistics;
-        }
+        var statistics = await _unitOfWork.StatisticRepository.GetAllAsync(cancellationToken);
+        return statistics;
     }
 
     /// <inheritdoc />
@@ -78,11 +68,8 @@ public class StatisticService : IStatisticService
     {
         try
         {
-            using (_unitOfWork)
-            {
-                var statistic = await _unitOfWork.StatisticRepository.GetByIdAsync(id, cancellationToken);
-                return statistic;
-            }
+            var statistic = await _unitOfWork.StatisticRepository.GetByIdAsync(id, cancellationToken);
+            return statistic;
         }
         catch (InvalidOperationException)
         {
