@@ -2,17 +2,12 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { DataService } from '../services/data.service';
 import { Statistic } from '../models/statistic'
 import { Event } from '../models/event'
-import { Observable, of, ReplaySubject, takeUntil } from "rxjs";
+import { BehaviorSubject, Observable, of, ReplaySubject, Subscription, takeUntil } from "rxjs";
 import * as signalR from "@microsoft/signalr";
 import { API_BASE_URL } from '../app.module'
 import {MatTableDataSource} from "@angular/material/table";
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import { interval } from 'rxjs';
-import { timer } from 'rxjs';
-import { map } from 'rxjs';
-import { startWith, switchAll, switchMap } from 'rxjs/operators';
-import { mergeMap } from 'rxjs/operators';
-
+import { startWith, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-statistics-list',
   styleUrls: ["statistics-list.component.css"],
@@ -27,23 +22,43 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
   connection: signalR.HubConnection;
   displayedColumns: string[] = ["userName", "updateDate", "clientVersion", "os"];
   displayedColumnsForEvents: string[] = ["name", "date"];
+  private checkboxSubject$ = new BehaviorSubject(false);
+
+get checkboxSubject(): boolean {
+  return this.checkboxSubject$.value;
+}
+set checkboxSubject(v: boolean) {
+  this.checkboxSubject$.next(v);
+}
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
+
+  refreshSubscription: Subscription;
 
   constructor(private dataService: DataService, @Inject(API_BASE_URL) baseUrl: string) {
     this.apiBaseUrl = baseUrl;
   }
 
-  getEvents(Id:number) : void {
+  getEvents(Id:number) : void 
+  {
     this.currentEventId = Id;
     this.eventDataSource = new MatTableDataSource<Event>;
+    this.dataService.getEventsByStatisticId(this.currentEventId).pipe(takeUntil(this.destroyed$)).subscribe((data: any) => this.eventDataSource.data = data as Event[])
+  }
 
-    const refresh = interval(3000)
+  autoRefreshCheckbox()
+  {
+    console.log(this.checkboxSubject);
+
+    if (this.checkboxSubject)
+    this.refreshSubscription = interval(3000)
     .pipe(
       startWith(1),
-      switchMap(() => this.dataService.getEventsByStatisticId(this.currentEventId)))
-    .pipe(takeUntil(this.destroyed$))
-    
-    refresh.subscribe((data: any) => this.eventDataSource.data = data as Event[])
+      switchMap(() => this.dataService.getEventsByStatisticId(this.currentEventId)),
+      takeUntil(this.destroyed$))
+    .subscribe((data: any) => this.eventDataSource.data = data as Event[])
+    else {
+      this.refreshSubscription.unsubscribe();}
   }
 
   getStatistics()
@@ -63,7 +78,7 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
     .catch(err => console.log('Error while starting connection: ' + err))
 
 
-    this.connection.on("notifycreateevent", (data:any) =>
+    this.connection.on("notifycreateeven", (data:any) =>
     {
       this.getEvents(this.currentEventId);
     });

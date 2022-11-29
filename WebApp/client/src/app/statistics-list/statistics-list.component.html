@@ -29,7 +29,7 @@
 
 <div>
   <table mat-table [dataSource]="eventDataSource" class="mat-elevation-z8">
-    <caption><mat-checkbox>Автообновление списка событий</mat-checkbox><br>Список событий</caption>
+    <caption><mat-checkbox (change)='autoRefreshCheckbox()' [(ngModel)]="checkboxSubject">Автообновление списка событий</mat-checkbox><br>Список событий</caption>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
