@@ -48,8 +48,6 @@ set checkboxSubject(v: boolean) {
 
   autoRefreshCheckbox()
   {
-    console.log(this.checkboxSubject);
-
     if (this.checkboxSubject)
     this.refreshSubscription = interval(3000)
     .pipe(
