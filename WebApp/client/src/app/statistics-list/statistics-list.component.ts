@@ -10,7 +10,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { interval } from 'rxjs';
 import { timer } from 'rxjs';
 import { map } from 'rxjs';
-import { switchAll } from 'rxjs/operators';
+import { startWith, switchAll, switchMap } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({
@@ -35,15 +35,15 @@ export class StatisticsListComponent implements OnInit, OnDestroy {
 
   getEvents(Id:number) : void {
     this.currentEventId = Id;
-    const refreshInterval = timer(0, 5000)
-    const events = this.dataService.getEventsByStatisticId(this.currentEventId)
     this.eventDataSource = new MatTableDataSource<Event>;
 
-    refreshInterval
+    const refresh = interval(3000)
+    .pipe(
+      startWith(1),
+      switchMap(() => this.dataService.getEventsByStatisticId(this.currentEventId)))
     .pipe(takeUntil(this.destroyed$))
-    .pipe(mergeMap(() => events)
-      ).subscribe((data: any) => this.eventDataSource.data = data as Event[])
-
+    
+    refresh.subscribe((data: any) => this.eventDataSource.data = data as Event[])
   }
 
   getStatistics()
