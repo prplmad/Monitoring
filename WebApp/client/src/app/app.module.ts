@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { InjectionToken } from '@angular/core';
-import {DataService} from "./data.service";
+import {DataService} from "./services/data.service";
 import { environment } from "../environments/environment";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -96,7 +96,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
       { path: '', component: StatisticsListComponent },
     ])
   ],
-  providers: [{ provide: API_BASE_URL, useValue: environment.apiRoot}, DataService],
+  providers: [{ provide: API_BASE_URL, useValue: environment.apiRoot}, DataService, StatisticsListComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

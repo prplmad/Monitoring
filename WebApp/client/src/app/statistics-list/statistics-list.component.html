@@ -1,10 +1,6 @@
 <div>
-  <table mat-table [dataSource]="statistics" class="mat-elevation-z8">
+  <table mat-table [dataSource]="statisticDataSource" class="mat-elevation-z8">
     <caption>Список узлов</caption>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let statistics"> {{statistics.id}} </td>
-    </ng-container>
 
     <ng-container matColumnDef="userName">
       <th mat-header-cell *matHeaderCellDef> UserName </th>
@@ -27,14 +23,14 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row (click)="getRecord(row.id)"
-     *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row (click)="getEvents(row.id)" *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
 
 <div>
-  <table mat-table [dataSource]="events" class="mat-elevation-z8">
-    <caption>Список событий</caption>
+  <table mat-table [dataSource]="eventDataSource" class="mat-elevation-z8">
+    <caption><mat-checkbox (change)='autoRefreshCheckbox()' [(ngModel)]="checkboxSubject">Автообновление списка событий</mat-checkbox><br>Список событий</caption>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let events"> {{events.name}} </td>
@@ -49,4 +45,3 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumnsForEvents;"></tr>
   </table>
 </div>
-

@@ -5,6 +5,7 @@ using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Serilog;
 using Services.Abstractions;
 
@@ -19,16 +20,19 @@ public class StatisticController : ControllerBase
 {
     private readonly IStatisticService _statisticService;
     private readonly ILogger _logger;
+    private readonly IHubContext<StatisticListComponentHub> _hub;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
     /// <param name="statisticService">Подключение сервиса статистики.</param>
     /// <param name="logger">Подключение логирования.</param>
-    public StatisticController(IStatisticService statisticService, ILogger logger)
+    /// <param name="hub">Подключение SignalR хаба.</param>
+    public StatisticController(IStatisticService statisticService, ILogger logger, IHubContext<StatisticListComponentHub> hub)
     {
         _statisticService = statisticService;
         _logger = logger;
+        _hub = hub;
     }
 
     /// <summary>
@@ -60,7 +64,10 @@ public class StatisticController : ControllerBase
         try
         {
             var statistic = statisticForCreationRequest.Adapt<Statistic>();
-            await _statisticService.CreateAsync(statistic, cancellationToken);
+            var id = await _statisticService.CreateAsync(statistic, cancellationToken);
+            statistic.UpdateDate = DateTime.Now.AddHours(-3);
+            statistic.Id = id;
+            await _hub.Clients.All.SendAsync("notifycreatestatistic", statistic);
             return StatusCode(201);
         }
         catch (ValidationException e)

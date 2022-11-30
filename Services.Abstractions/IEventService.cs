@@ -22,5 +22,5 @@ public interface IEventService
     /// <param name="eventForCreation">ДТО для создания события.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task CreateAsync(Event eventForCreation, CancellationToken cancellationToken);
+    Task<int> CreateAsync(Event eventForCreation, CancellationToken cancellationToken);
 }

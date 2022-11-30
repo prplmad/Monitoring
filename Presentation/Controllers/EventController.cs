@@ -4,6 +4,7 @@ using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Serilog;
 using Services.Abstractions;
 
@@ -18,16 +19,19 @@ public class EventController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IEventService _eventService;
+    private readonly IHubContext<StatisticListComponentHub> _hub;
 
     /// <summary>
     /// Конструктор для подключения сервисов.
     /// </summary>
     /// <param name="logger">Подключение логирования.</param>
     /// <param name="eventService">Подключение сервиса событий.</param>
-    public EventController(ILogger logger, IEventService eventService)
+    /// <param name="hub">Подключение SignalR хаба.</param>
+    public EventController(ILogger logger, IEventService eventService, IHubContext<StatisticListComponentHub> hub)
     {
         _eventService = eventService;
         _logger = logger;
+        _hub = hub;
     }
 
     /// <summary>
@@ -72,6 +76,7 @@ public class EventController : ControllerBase
         {
             var eventForCreation = eventForCreationRequest.Adapt<Event>();
             await _eventService.CreateAsync(eventForCreation, cancellationToken);
+            await _hub.Clients.All.SendAsync("notifycreateevent");
             return StatusCode(201);
         }
         catch (ValidationException e)

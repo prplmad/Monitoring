@@ -20,7 +20,7 @@ public interface IStatisticService
     /// <param name="statistic">Модель статистики.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
     /// <returns>Возвращается Task.</returns>
-    Task CreateAsync(Statistic statistic, CancellationToken cancellationToken);
+    Task<int> CreateAsync(Statistic statistic, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновление статистики.

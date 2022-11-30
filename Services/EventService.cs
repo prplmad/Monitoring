@@ -35,7 +35,7 @@ public class EventService : IEventService
     }
 
     /// <inheritdoc/>
-    public async Task CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
+    public async Task<int> CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
     {
         ValidationResult result = await _validator.ValidateAsync(eventForCreation);
         if (!result.IsValid)
@@ -43,10 +43,8 @@ public class EventService : IEventService
             _logger.Error("Ошибка валидации {@Errors}", result.Errors.First());
             throw new ValidationException("Произошла ошибка валидации: " + result.Errors.First());
         }
-        using (_unitOfWork)
-        {
-            await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
-            _unitOfWork.Commit();
-        }
+        var id =  await _unitOfWork.EventRepository.CreateAsync(eventForCreation, cancellationToken);
+        _unitOfWork.Commit();
+        return id;
     }
 }

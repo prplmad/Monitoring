@@ -31,9 +31,10 @@ public class EventRepository : IEventRepository
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
+    public async Task<int> CreateAsync(Event eventForCreation, CancellationToken cancellationToken)
     {
-        var query = "INSERT INTO event (statistic_id ,name, date) VALUES (@StatisticId, @Name, @Date)";
-        await _connection.ExecuteAsync(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_transaction));
+        var query = "INSERT INTO event (statistic_id ,name, date) VALUES (@StatisticId, @Name, @Date) returning id";
+        int id = await _connection.QuerySingleAsync<int>(new CommandDefinition(query, eventForCreation, cancellationToken: cancellationToken, transaction:_transaction));
+        return id;
     }
 }

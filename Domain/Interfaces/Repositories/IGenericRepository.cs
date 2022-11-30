@@ -1,4 +1,6 @@
-﻿namespace Domain.Interfaces.Repositories;
+﻿using Domain.Entities;
+
+namespace Domain.Interfaces.Repositories;
 
 /// <summary>
 /// Общий интерфейс для интерфейсов репозиториев.
@@ -11,6 +13,6 @@ public interface IGenericRepository<T> where T : class
     /// </summary>
     /// <param name="entity">Создаваемая сущность.</param>
     /// <param name="cancellationToken">Токен для отмены задачи.</param>
-    /// <returns>Возвращает Task.</returns>
-    Task CreateAsync(T entity, CancellationToken cancellationToken);
+    /// <returns>Возвращает Id сущности.</returns>
+    Task<int> CreateAsync(T entity, CancellationToken cancellationToken);
 }

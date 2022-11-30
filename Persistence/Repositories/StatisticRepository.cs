@@ -22,10 +22,11 @@ public class StatisticRepository : IStatisticRepository
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(Statistic statistic, CancellationToken cancellationToken)
+    public async Task<int> CreateAsync(Statistic statistic, CancellationToken cancellationToken)
     {
-        var query = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW())";
-        await _connection.ExecuteAsync(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: _transaction));
+        var query = "INSERT INTO statistic (external_id, username, client_version, os, update_date) VALUES (@ExternalId, @UserName, @ClientVersion, @Os, NOW()) returning id";
+        var id = await _connection.QuerySingleAsync<int>(new CommandDefinition(query, statistic, cancellationToken: cancellationToken, transaction: _transaction));
+        return id;
     }
 
     /// <inheritdoc />
