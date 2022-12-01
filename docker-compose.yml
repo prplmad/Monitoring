@@ -10,15 +10,27 @@ services:
       - POSTGRES_PASSWORD=er42k2l5
       - POSTGRES_DB=postgres
 
+  testDb:
+    image: postgres:11-alpine
+    ports:
+      - "7432:7432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testdb
+      - POSTGRES_DB=testdb
+
   webapp:
     image: ${DOCKER_REGISTRY-}webapp
     build:
       context: .
       dockerfile: WebApp\Dockerfile
     ports:
-      - "7130:7130"
+      - "7130:80"
+      - "28983:81"
     depends_on:
-      - "MyDb"
+      - MyDb
+      - testDb
+      - proxy
 
   proxy:
     image: nginx:latest
