@@ -6,11 +6,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 ENV Mobile_ConnectionStrings__MyDb Host=MyDb:5432;Database=postgres;User ID=postgres;Password=er42k2l5
+ENV ASPNETCORE_URLS=http://+:7130
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-RUN curl -sL https://deb.nodesource.com/setup_16.x |  bash -
-RUN apt-get install -y nodejs
 COPY ["WebApp/WebApp.csproj", "WebApp/"]
 COPY ["Persistence/Persistence.csproj", "Persistence/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
@@ -26,34 +25,8 @@ RUN dotnet build "WebApp.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "WebApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-
-#Angular build
-FROM node:latest as nodebuilder
-
-# set working directory
-WORKDIR /usr/src/app
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-
-
-# install and cache app dependencies
-COPY ["WebApp/client/package.json", "/usr/src/app/package.json"]
-RUN npm install
-
-# add app
-
-COPY ["WebApp/client/.", "/usr/src/app"]
-
-RUN npm run build
-
-#End Angular build
-
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN mkdir -p /app/client/dist
-COPY --from=nodebuilder /usr/src/app/dist/. /app/client/dist/
 ENTRYPOINT ["dotnet", "WebApp.dll"]
 
