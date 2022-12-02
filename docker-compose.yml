@@ -25,8 +25,8 @@ services:
       context: .
       dockerfile: WebApp\Dockerfile
     ports:
-      - "7130:80"
-      - "28983:81"
+      - "7130:7130"
+      - "28983:28983"
     depends_on:
       - MyDb
       - testDb
