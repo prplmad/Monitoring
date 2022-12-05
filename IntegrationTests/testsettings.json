@@ -1,5 +1,5 @@
 ﻿{
   "ConnectionStrings": {
-    "MyDb" : "Host=monitoring-testDb-1:5432;Database=testdb;User ID=postgres;Password=testdb"
+    "MyDb" : "Host=monitoring-testDb-1;Database=testdb;User ID=postgres;Password=testdb"
   }
 }
