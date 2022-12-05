@@ -13,7 +13,7 @@ services:
   testDb:
     image: postgres:11-alpine
     ports:
-      - "7432:7432"
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=testdb

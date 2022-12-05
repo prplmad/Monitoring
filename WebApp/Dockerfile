@@ -5,7 +5,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-ENV Mobile_ConnectionStrings__MyDb Host=MyDb:5432;Database=postgres;User ID=postgres;Password=er42k2l5
+ENV Mobile_ConnectionStrings__MyDb Host=monitoring-MyDb-1:5432;Database=postgres;User ID=postgres;Password=er42k2l5
 ENV ASPNETCORE_URLS=http://+:7130
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
