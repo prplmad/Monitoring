@@ -7,8 +7,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>..\infotecs.ruleset</CodeAnalysisRuleSet>
     <SpaRoot>client\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:28983</SpaProxyServerUrl>
-    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>http://localhost:28983</SpaProxyServerUrl>
     <RootNamespace>WebApp</RootNamespace>
   </PropertyGroup>
 
@@ -27,8 +26,6 @@
   </ItemGroup>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
 
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />

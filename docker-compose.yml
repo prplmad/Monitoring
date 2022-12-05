@@ -1,0 +1,60 @@
+version: '3.4'
+
+services:
+  MyDb:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=er42k2l5
+      - POSTGRES_DB=postgres
+
+  testDb:
+    image: postgres:11-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testdb
+      - POSTGRES_DB=testdb
+
+  frontend:
+    image: ${DOCKER_REGISTRY-}front
+    build:
+      context: WebApp\client
+      dockerfile: Dockerfile
+    ports:
+      - "28983:80"
+    depends_on:
+      - MyDb
+      - testDb
+
+  backend:
+    image: ${DOCKER_REGISTRY-}back
+    build:
+      context: .
+      dockerfile: WebApp\Dockerfile
+    ports:
+      - "7130:7130"
+    depends_on:
+      - frontend
+      - MyDb
+      - testDb
+
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+    image: datalust/seq
+    ports:
+    - "5341:80"
+
+  teamcity-agent:
+    image: jetbrains/teamcity-agent
+    environment:
+      - SERVER_URL=http://teamcity-server:8111
+
+  teamcity-server:
+    image: jetbrains/teamcity-server
+    ports:
+      - "8111:8111"

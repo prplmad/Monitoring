@@ -24,7 +24,7 @@ public static class ServiceExtensions
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowAnyOrigin()
-                        .WithOrigins("https://localhost:7130", "https://localhost:28983");
+                        .WithOrigins("http://localhost:7130", "http://localhost:28983");
                 });
         });
     }
